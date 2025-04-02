@@ -7,40 +7,39 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
+import {Post} from '../helper/types'
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Create Post',
-        href: '/post/create',
+        title: 'Update Post',
+        href: '/post/update',
     },
 ];
 
-export default function Create() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        title: '',
-        content: '',
+export default function Edit({ post }: { post: Post }) {
+    const { data, setData, put, processing, errors } = useForm({
+        title: post.title,
+        content: post.content,
     });
 
-    const StorePost = (eve: React.FormEvent<HTMLFormElement>) => {
+    const updatePost = (eve: React.FormEvent<HTMLFormElement>) => {
         eve.preventDefault();
-        post('/post', {
+        put(`/post/${post.id}`, {
             onSuccess: () => {
-                toast.success('Post created successfully.', {duration: 2000});
-                reset(); 
+                toast.success('Post updated successfully.', {duration: 2000});
             },
             onError: () => {
                 if(Object.keys(errors).length >=0){
                     return;
                 }
-                toast.error('Failed to create post.', { duration: 2000 });
+                toast.error('Failed to update post.', { duration: 2000 });
             }
         });
-    };
-
+    }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Post" />
+            <Head title="Update Post" />
             <div className="mx-auto mt-5 w-4/5">
-                <form onSubmit={StorePost}>
+                <form onSubmit={updatePost}>
                     <div className="space-y-1">
                         {/* Input for Title */}
                         <div>

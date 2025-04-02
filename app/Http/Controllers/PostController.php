@@ -12,13 +12,11 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
 
-     public function __invoke(Request $request)
-     {
-         
-     }
+     
     public function index()
     {
-        return Inertia::render('post/Create');
+        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+         return Inertia::render('post/Index', ['posts' => $posts]);
     }
 
     /**
@@ -26,7 +24,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('post/Create');
     }
 
     /**
@@ -38,6 +36,12 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
+
+        $post = Post::create($validateData);
+        if($post){
+            return redirect()->route('post.create');
+            
+        }
     }
 
     /**
@@ -53,7 +57,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return Inertia::render('post/Edit', ['post' => $post]);
     }
 
     /**
@@ -61,7 +65,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validateData = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $post->update($validateData);
+            return redirect()->route('post.index')->with('success', 'Post updated successfully!');
+
     }
 
     /**
@@ -69,6 +80,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('post.index');
     }
 }

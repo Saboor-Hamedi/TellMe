@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Plus, Folder, House } from 'lucide-react';
+import { BookOpen, Plus,Book, Folder, House } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -14,7 +14,12 @@ const mainNavItems: NavItem[] = [
         icon: House,
     },
     {
-        title: 'Posts',
+        title: 'Index',
+        href: '/post/index',
+        icon: Book,
+    },
+    {
+        title: 'Create',
         href: '/post/create',
         icon: Plus,
     },

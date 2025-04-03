@@ -8,6 +8,8 @@ import { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 import {Post} from '../helper/types'
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Update Post',
@@ -19,6 +21,7 @@ export default function Edit({ post }: { post: Post }) {
     const { data, setData, put, processing, errors } = useForm({
         title: post.title,
         content: post.content,
+        is_public: post.is_public
     });
 
     const updatePost = (eve: React.FormEvent<HTMLFormElement>) => {
@@ -65,10 +68,24 @@ export default function Edit({ post }: { post: Post }) {
                                 id="content"
                                 name="content"
                                 placeholder="Write your post content here..."
+                                rows={5}
+                                className="min-h-[100px] max-h-[300px]"
                                 value={data.content}
                                 onChange={(e) => setData('content', e.target.value)} // ✅ Bind textarea to state
                             />
                             {errors.content && <small className="text-[10px] text-red-500">{errors.content}</small>}
+                        </div>
+
+                        {/* is_public */}
+
+                        <div className="mt-3 mb-3 flex items-center space-x-2">
+                            <Switch
+                                id="airplane-mode"
+                                name="is_public"
+                                checked={data.is_public}
+                                onCheckedChange={(checked) => setData('is_public', checked ? true : false)}
+                            />
+                            <Label htmlFor="airplane-mode">Publish</Label>
                         </div>
 
                         <div>

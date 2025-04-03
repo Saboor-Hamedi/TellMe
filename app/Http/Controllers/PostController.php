@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
-     
+    use AuthorizesRequests;
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
-         return Inertia::render('post/Index', ['posts' => $posts]);
+
+        return Inertia::render('post/Index', ['posts' => $posts]);
     }
 
     /**
@@ -32,15 +31,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
         $validateData = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
+        $validateData['user_id'] = Auth::user()->id;
+        // $validateData['is_public'] = $request->has('is_public');
+        $validateData['is_public'] = $request->boolean('is_public');
+
         $post = Post::create($validateData);
-        if($post){
+        if ($post) {
             return redirect()->route('post.create');
-            
+
         }
     }
 
@@ -65,13 +69,20 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $validateData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+
+        $this->authorize('update', $post);
+
+        $validate = $request->validate([
+            'title' => 'required|string|min:1|max:255',
+            'content' => 'required|string|min:1',
+            'is_public' => 'sometimes|boolean', 
         ]);
 
-        $post->update($validateData);
-            return redirect()->route('post.index')->with('success', 'Post updated successfully!');
+        $validate['user_id'] = Auth::user()->id;
+        $validate['is_public'] = $request->boolean('is_public');
+
+        $post->update($validate);
+        return redirect()->route('post.index')->with('success', 'Post updated successfully!');
 
     }
 
@@ -80,7 +91,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
         $post->delete();
+
         return redirect()->route('post.index');
     }
 }

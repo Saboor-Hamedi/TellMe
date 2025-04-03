@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
@@ -15,9 +17,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Create() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm<{
+        title: string;
+        content: string;
+        is_public: boolean;
+    }>({
         title: '',
         content: '',
+        is_public: false,
     });
 
     const StorePost = (eve: React.FormEvent<HTMLFormElement>) => {
@@ -66,10 +73,24 @@ export default function Create() {
                                 id="content"
                                 name="content"
                                 placeholder="Write your post content here..."
+                                rows={5}
+                                className="max-h-[300px] min-h-[100px]"
                                 value={data.content}
                                 onChange={(e) => setData('content', e.target.value)} // ✅ Bind textarea to state
                             />
                             {errors.content && <small className="text-[10px] text-red-500">{errors.content}</small>}
+                        </div>
+
+                        {/* is_public */}
+
+                        <div className="mt-3 mb-3 flex items-center space-x-2">
+                            <Switch
+                                id="airplane-mode"
+                                name="is_public"
+                                checked={data.is_public}
+                                onCheckedChange={(checked) => setData('is_public', checked ? true : false)}
+                            />
+                            <Label htmlFor="airplane-mode">Publish</Label>
                         </div>
 
                         <div>

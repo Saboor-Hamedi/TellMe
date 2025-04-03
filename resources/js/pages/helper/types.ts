@@ -10,4 +10,5 @@ export interface Post {
     id: number;
     title: string;
     content: string;
+    is_public: boolean;
 }

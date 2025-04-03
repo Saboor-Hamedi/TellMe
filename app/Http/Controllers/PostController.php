@@ -11,11 +11,17 @@ use Inertia\Inertia;
 class PostController extends Controller
 {
     use AuthorizesRequests;
+
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+        $userId = Auth::id();
 
-        return Inertia::render('post/Index', ['posts' => $posts]);
+        return Inertia::render('post/Index',
+            [
+                'posts' => $posts,
+                'user_id' => $userId,
+            ]);
     }
 
     /**
@@ -43,8 +49,7 @@ class PostController extends Controller
 
         $post = Post::create($validateData);
         if ($post) {
-            return redirect()->route('post.create');
-
+            return redirect()->route('post.index')->with('success', 'Post created successfully!');
         }
     }
 
@@ -75,13 +80,13 @@ class PostController extends Controller
         $validate = $request->validate([
             'title' => 'required|string|min:1|max:255',
             'content' => 'required|string|min:1',
-            'is_public' => 'sometimes|boolean', 
+            'is_public' => 'sometimes|boolean',
         ]);
 
         $validate['user_id'] = Auth::user()->id;
         $validate['is_public'] = $request->boolean('is_public');
-
         $post->update($validate);
+
         return redirect()->route('post.index')->with('success', 'Post updated successfully!');
 
     }

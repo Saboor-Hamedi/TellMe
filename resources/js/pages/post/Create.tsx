@@ -30,16 +30,16 @@ export default function Create() {
     const StorePost = (eve: React.FormEvent<HTMLFormElement>) => {
         eve.preventDefault();
         post('/post', {
-            onSuccess: () => {
-                toast.success('Post created successfully.', {duration: 2000});
-                reset(); 
-            },
-            onError: () => {
-                if(Object.keys(errors).length >=0){
-                    return;
-                }
-                toast.error('Failed to create post.', { duration: 2000 });
-            }
+            // onSuccess: () => {
+            //     toast.success('Post created successfully.', {duration: 2000});
+            //     reset(); 
+            // },
+            // onError: () => {
+            //     if(Object.keys(errors).length >=0){
+            //         return;
+            //     }
+            //     toast.error('Failed to create post.', { duration: 2000 });
+            // }
         });
     };
 

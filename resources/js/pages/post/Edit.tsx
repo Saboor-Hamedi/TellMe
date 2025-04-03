@@ -28,14 +28,11 @@ export default function Edit({ post }: { post: Post }) {
         eve.preventDefault();
         put(`/post/${post.id}`, {
             onSuccess: () => {
-                toast.success('Post updated successfully.', {duration: 2000});
+                toast.success('Post updated successfully.', { duration: 2000 });
             },
             onError: () => {
-                if(Object.keys(errors).length >=0){
-                    return;
-                }
                 toast.error('Failed to update post.', { duration: 2000 });
-            }
+            },
         });
     }
     return (

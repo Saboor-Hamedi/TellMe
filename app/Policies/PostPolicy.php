@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 
 class PostPolicy
@@ -30,7 +29,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-    //    return $user->user_id === Auth::id();
+        //    return $user->user_id === Auth::id();
         return Auth::check();
     }
 
@@ -39,7 +38,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-       return $post->user_id === $user->id;
+        return $post->user_id === $user->id;
     }
 
     /**

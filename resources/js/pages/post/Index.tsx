@@ -1,16 +1,16 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { Trash2, FilePenLine } from 'lucide-react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { FilePenLine, Trash2 } from 'lucide-react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { LimitString } from '../helper/LimitString';
 import { Paginate } from '../helper/Paginate';
-import { PaginationLinks } from '../helper/types';
-import { Button } from '@/components/ui/button';
-
+import { PaginationLinks, Post } from '../helper/types';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Posts',
@@ -18,13 +18,21 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface Post {
-    id: number;
-    title: string;
-    content: string;
-}
+export default function Index({ posts, user_id }: { posts: { data: Post[]; links: PaginationLinks[] }; user_id: number | null }) {
+    const { flash } = usePage().props as {
+        flash?: { success?: string; error?: string };
+    };
 
-export default function Index({ posts }: { posts: { data: Post[]; links: PaginationLinks[] } }) {
+    useEffect(() => {
+        if (flash?.success) {
+            toast.success(flash.success, { duration: 2000 });
+        }
+        if (flash?.error) {
+            toast.error(flash.error, { duration: 2000 });
+        }
+    }, [flash]);
+    // Delete Post
+
     const deletePost = (id: number) => {
         if (confirm('Are you sure you want to delete this post?')) {
             {
@@ -39,12 +47,6 @@ export default function Index({ posts }: { posts: { data: Post[]; links: Paginat
             }
         }
     };
-    // update post 
-    const updatePost = (id: number) => {
-        router.get(`/post/${id}/edit`, {
-            
-        });
-    }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
@@ -54,7 +56,8 @@ export default function Index({ posts }: { posts: { data: Post[]; links: Paginat
                     <TableHeader>
                         <TableRow>
                             <TableHead>Title</TableHead>
-                            <TableHead>Text</TableHead>
+                            <TableHead>Content</TableHead>
+                            <TableHead>Edit</TableHead>
                             <TableHead>Delete</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -63,16 +66,21 @@ export default function Index({ posts }: { posts: { data: Post[]; links: Paginat
                             <TableRow key={post.id}>
                                 <TableCell>{post.title}</TableCell>
                                 <TableCell>{LimitString(post.content, 80, '...')}</TableCell>
-                                <TableCell>
-                                    <Link href={`/post/${post.id}/edit`} className="bg-red-400">
-                                        <FilePenLine size={16} strokeWidth={1}  />
-                                    </Link>
-                                </TableCell>
-                                <TableCell>
-                                    <Button onClick={() => deletePost(post.id)} variant="destructive" size="sm">
-                                        <Trash2 size={12} strokeWidth={1} />
-                                    </Button>
-                                </TableCell>
+
+                                {user_id === post.user_id && (
+                                    <>
+                                        <TableCell>
+                                            <Link href={`/post/${post.id}/edit`} className="bg-red-400">
+                                                <FilePenLine size={16} strokeWidth={1} />
+                                            </Link>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button onClick={() => deletePost(post.id)} variant="destructive" size="sm">
+                                                <Trash2 size={12} strokeWidth={1} />
+                                            </Button>
+                                        </TableCell>
+                                    </>
+                                )}
                             </TableRow>
                         ))}
                     </TableBody>

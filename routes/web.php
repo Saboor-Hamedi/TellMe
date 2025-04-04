@@ -1,13 +1,11 @@
 <?php
 
+use App\Http\Controllers\Post\FrontController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
-
+Route::get('/', [FrontController::class, 'index'])->name('home'); 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
@@ -19,7 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
-
+    
 });
 
 require __DIR__.'/settings.php';

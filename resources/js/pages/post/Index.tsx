@@ -1,16 +1,20 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head,  router, usePage } from '@inertiajs/react';
 import { FilePenLine, Trash2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { LimitString } from '../helper/LimitString';
 import { Paginate } from '../helper/Paginate';
 import { PaginationLinks, Post } from '../helper/types';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Posts',
@@ -70,13 +74,23 @@ export default function Index({ posts, user_id }: { posts: { data: Post[]; links
                                 {user_id === post.user_id && (
                                     <>
                                         <TableCell>
-                                            <Link href={`/post/${post.id}/edit`} className="bg-red-400">
-                                                <FilePenLine size={16} strokeWidth={1} />
-                                            </Link>
+                                            <Button
+                                                href={`/post/${post.id}/edit`}
+                                                variant="contained"
+                                                color="success"
+                                                style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+                                            >
+                                                {<EditIcon />}
+                                            </Button>
                                         </TableCell>
                                         <TableCell>
-                                            <Button onClick={() => deletePost(post.id)} variant="destructive" size="sm">
-                                                <Trash2 size={12} strokeWidth={1} />
+                                            <Button
+                                                onClick={() => deletePost(post.id)}
+                                                variant="contained"
+                                                color="error"
+                                                style={{ maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px' }}
+                                            >
+                                                <DeleteIcon />
                                             </Button>
                                         </TableCell>
                                     </>

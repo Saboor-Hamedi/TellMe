@@ -1,6 +1,7 @@
 import { type SharedData } from '@/types';
 import {  Link, usePage } from '@inertiajs/react';
 import { ChevronRight, MoveRight } from 'lucide-react';
+import Header from './Header';
 
 export default function Hero() {
         const { auth } = usePage<SharedData>().props;
@@ -8,35 +9,9 @@ export default function Hero() {
     return (
         <div className="flex min-h-screen flex-col bg-[#FDFDFC] dark:bg-[#0a0a0a]">
             {/* Header with Auth Navigation */}
-            <header className="w-full">
-                <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-                    <nav className="flex items-center justify-end gap-4">
-                        {auth.user ? (
-                            <Link
-                                href={route('dashboard')}
-                                className="inline-block rounded-lg bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            >
-                                Dashboard
-                            </Link>
-                        ) : (
-                            <>
-                                <Link
-                                    href={route('login')}
-                                    className="inline-block rounded-lg border border-black px-5 py-2 text-sm font-medium text-black transition hover:bg-gray-100 dark:border-white dark:text-white dark:hover:bg-gray-900"
-                                >
-                                    Log in
-                                </Link>
-                                <Link
-                                    href={route('register')}
-                                    className="inline-block rounded-lg bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                                >
-                                    Register
-                                </Link>
-                            </>
-                        )}
-                    </nav>
-                </div>
-            </header>
+
+            <Header />
+            
 
             {/* Modern Hero Section */}
             <div className="relative isolate overflow-hidden bg-white dark:bg-[#0a0a0a]">
@@ -68,7 +43,7 @@ export default function Hero() {
                         <div className="mt-10 flex flex-wrap items-center gap-6">
                             <a
                                 href="#featured-posts"
-                                className="group relative overflow-hidden rounded-lg bg-gray-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                                className="group relative overflow-hidden rounded-lg bg-gray-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg hover:bg-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                             >
                                 <span className="absolute top-0 left-0 h-full w-0 bg-white/30 transition-all duration-300 group-hover:w-full"></span>
                                 <span className="relative z-10 flex items-center gap-2">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Services\ImageDelete;
+use App\Services\ValidateService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,46 +13,44 @@ use Inertia\Inertia;
 class PostController extends Controller
 {
     use AuthorizesRequests;
-
+    protected $validateService;
+    protected $imageDelete;
+    public function __construct(ValidateService $validateService, ImageDelete $imageDelete)
+    {
+        $this->validateService = $validateService;
+        $this->imageDelete = $imageDelete;
+    }
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         $userId = Auth::id();
-
         return Inertia::render('post/Index',
             [
                 'posts' => $posts,
                 'user_id' => $userId,
             ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('post/Create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $this->authorize('create', Post::class);
-        $validateData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
-
+        $validateData =  $this->validateService->postValidation($request);
         $validateData['user_id'] = Auth::user()->id;
-        // $validateData['is_public'] = $request->has('is_public');
         $validateData['is_public'] = $request->boolean('is_public');
-
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('postImages'), $imageName);
+            $validateData['image'] = $imageName;
+        }
         $post = Post::create($validateData);
         if ($post) {
             return redirect()->route('post.index')->with('success', 'Post created successfully!');
         }
+        return redirect()->back()->with('error', 'Post creation failed!');
     }
 
     /**
@@ -61,34 +61,31 @@ class PostController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+  
     public function edit(Post $post)
     {
         return Inertia::render('post/Edit', ['post' => $post]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, Post $post)
     {
-
         $this->authorize('update', $post);
-
-        $validate = $request->validate([
-            'title' => 'required|string|min:1|max:255',
-            'content' => 'required|string|min:1',
-            'is_public' => 'sometimes|boolean',
-        ]);
-
-        $validate['user_id'] = Auth::user()->id;
-        $validate['is_public'] = $request->boolean('is_public');
-        $post->update($validate);
-
+        $validateData =  $this->validateService->postValidation($request);
+        $validateData['user_id'] = Auth::user()->id;
+        $validateData['is_public'] = $request->boolean('is_public');
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('postImages'), $imageName);
+            $this->imageDelete->deleteImageIfExists($post->image, 'postImages');
+            $validateData['image'] = $imageName;
+        }else{
+            $validateData['image'] = $post->image;
+        }
+        // dd($post);
+        $post->update($validateData);
         return redirect()->route('post.index')->with('success', 'Post updated successfully!');
-
     }
 
     /**
@@ -98,6 +95,7 @@ class PostController extends Controller
     {
         $this->authorize('delete', $post);
         $post->delete();
+        $this->imageDelete->deleteImageIfExists($post->image, 'postImages');
 
         return redirect()->route('post.index');
     }

@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
-import { toast } from 'sonner';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Create Post',
@@ -21,25 +21,18 @@ export default function Create() {
         title: string;
         content: string;
         is_public: boolean;
+        image: File | null,
     }>({
         title: '',
         content: '',
         is_public: false,
+        image: null,
     });
-
+ 
     const StorePost = (eve: React.FormEvent<HTMLFormElement>) => {
         eve.preventDefault();
         post('/post', {
-            // onSuccess: () => {
-            //     toast.success('Post created successfully.', {duration: 2000});
-            //     reset(); 
-            // },
-            // onError: () => {
-            //     if(Object.keys(errors).length >=0){
-            //         return;
-            //     }
-            //     toast.error('Failed to create post.', { duration: 2000 });
-            // }
+           
         });
     };
 
@@ -47,24 +40,47 @@ export default function Create() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Post" />
             <div className="mx-auto mt-5 w-4/5">
-                <form onSubmit={StorePost}>
-                    <div className="space-y-1">
-                        {/* Input for Title */}
-                        <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                                Title
-                            </label>
-                            <Input
-                                id="title"
-                                name="title"
-                                placeholder="Enter the post title"
-                                value={data.title}
-                                onChange={(e) => setData('title', e.target.value)} // ✅ Bind input to state
-                            />
-                            {errors.title && <small className="text-[10px] text-red-500">{errors.title}</small>}
+                <form onSubmit={StorePost} encType="multipart/form-data">
+                    <div className="space-y-4">
+                        {/* Title and Image Side-by-Side */}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            {/* Title Input */}
+                            <div>
+                                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                                    Title
+                                </label>
+                                <Input
+                                    id="title"
+                                    name="title"
+                                    placeholder="Enter the post title"
+                                    value={data.title}
+                                    onChange={(e) => setData('title', e.target.value)}
+                                />
+                                {errors.title && <small className="text-[10px] text-red-500">{errors.title}</small>}
+                            </div>
+
+                            {/* Image Input */}
+                            <div>
+                                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                                    Image
+                                </label>
+                                <Input
+                                    id="image"
+                                    name="image"
+                                    type="file"
+                                    accept="image/*"
+                                    placeholder="Upload an image"
+                                    onChange={(e) => {
+                                        if (e.target.files && e.target.files[0]) {
+                                            setData('image', e.target.files[0]);
+                                        }
+                                    }}
+                                />
+                                {errors.image && <small className="text-[10px] text-red-500">{errors.image}</small>}
+                            </div>
                         </div>
 
-                        {/* Textarea for Content */}
+                        {/* Content Textarea Full Width */}
                         <div>
                             <label htmlFor="content" className="block text-sm font-medium text-gray-700">
                                 Content
@@ -76,27 +92,28 @@ export default function Create() {
                                 rows={5}
                                 className="max-h-[300px] min-h-[100px]"
                                 value={data.content}
-                                onChange={(e) => setData('content', e.target.value)} // ✅ Bind textarea to state
+                                onChange={(e) => setData('content', e.target.value)}
                             />
                             {errors.content && <small className="text-[10px] text-red-500">{errors.content}</small>}
                         </div>
 
-                        {/* is_public */}
-
-                        <div className="mt-3 mb-3 flex items-center space-x-2">
-                            <Switch
-                                id="airplane-mode"
-                                name="is_public"
-                                checked={data.is_public}
-                                onCheckedChange={(checked) => setData('is_public', checked ? true : false)}
-                            />
-                            <Label htmlFor="airplane-mode">Publish</Label>
-                        </div>
-
-                        <div>
-                            <Button type="submit" disabled={processing} variant="contained" size="small">
-                                {processing ? 'Saving...' : 'Create Post'}
-                            </Button>
+                        {/* Publish Switch */}
+                        <div className="flex flex-row-reverse items-center justify-between space-x-2 rounded-md ">
+                            <div className="flex items-center gap-2">
+                                <Switch
+                                    id="is_public"
+                                    name="is_public"
+                                    checked={data.is_public}
+                                    onCheckedChange={(checked) => setData('is_public', checked)}
+                                />
+                                <Label htmlFor="is_public">Publish</Label>
+                            </div>
+                            {/* Submit Button */}
+                            <div>
+                                <Button type="submit" disabled={processing} variant="contained" size="small">
+                                    {processing ? 'Saving...' : 'Create'}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </form>

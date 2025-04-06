@@ -4,7 +4,6 @@ import {Post, User} from './helper/types';
 import {LimitString} from './helper/LimitString';
 import Hero from './Hero';
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
     const { posts } = usePage<SharedData & { posts: { data: Post[] } }>().props;
     return (
         <>
@@ -22,7 +21,7 @@ export default function Welcome() {
                             <div className="flex items-start gap-3">
                                 <div className="h-10 w-10 overflow-hidden rounded-full bg-gray-200">
                                     <img
-                                        src={post.user?.avatar || '/storage/default/default-profile.png'}
+                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
                                         alt={post.user?.name || 'User'}
                                         className="h-full w-full object-cover"
                                     />
@@ -64,7 +63,10 @@ export default function Welcome() {
 
                         {/* Card Footer */}
                         <div className="border-t border-gray-100 p-4">
-                            <button className="flex w-full items-center justify-center gap-2 rounded-md bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100">
+                            <a
+                                href={`/front/${post.id}`}
+                                className="flex w-full items-center justify-center gap-2 rounded-md bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                            >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path
@@ -75,7 +77,7 @@ export default function Welcome() {
                                     />
                                 </svg>
                                 Read Full Story
-                            </button>
+                            </a>
                         </div>
                     </div>
                 ))}

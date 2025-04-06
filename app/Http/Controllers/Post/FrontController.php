@@ -11,10 +11,19 @@ class FrontController extends Controller
     public function index()
     {
         $posts = Post::with('user')->latest()->get();
+
         return Inertia::render('welcome', [
             'posts' => [
                 'data' => $posts, // Wrap $posts in an object with a data property
             ],
+        ]);
+    }
+
+    public function show(Post $post)
+    {
+
+        return Inertia::render('front/Show', [
+            'post' => $post,
         ]);
     }
 }

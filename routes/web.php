@@ -5,7 +5,8 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [FrontController::class, 'index'])->name('home'); 
+Route::get('/', [FrontController::class, 'index'])->name('home');
+Route::get('/front/{post}', [FrontController::class, 'show'])->name('front.show');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
@@ -17,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
-    
+
 });
 
 require __DIR__.'/settings.php';

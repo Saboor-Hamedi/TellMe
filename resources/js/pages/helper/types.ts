@@ -10,6 +10,7 @@ export interface Post {
     content: string;
     is_public: boolean;
     created_at: string;
+    image: File | null;
     user: User;
 }
 

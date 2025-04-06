@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'saboor@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('123'), 
+            'password' => bcrypt('123'),
             'remember_token' => null,
         ]);
         User::factory()->count(1)->create();

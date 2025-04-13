@@ -34,9 +34,9 @@ export default function Register() {
     return (
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
+            <form className="flex flex-col " onSubmit={submit}>
+                <div className="grid gap-4">
+                    <div className="grid gap-1">
                         <Label htmlFor="name">Name</Label>
                         <Input
                             id="name"

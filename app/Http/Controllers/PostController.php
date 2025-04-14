@@ -13,31 +13,39 @@ use Inertia\Inertia;
 class PostController extends Controller
 {
     use AuthorizesRequests;
+
     protected $validateService;
+
     protected $imageDelete;
+
     public function __construct(ValidateService $validateService, ImageDelete $imageDelete)
     {
         $this->validateService = $validateService;
         $this->imageDelete = $imageDelete;
     }
+
     public function index()
     {
+
         $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         $userId = Auth::id();
+
         return Inertia::render('post/Index',
             [
                 'posts' => $posts,
                 'user_id' => $userId,
             ]);
     }
+
     public function create()
     {
         return Inertia::render('post/Create');
     }
+
     public function store(Request $request)
     {
         $this->authorize('create', Post::class);
-        $validateData =  $this->validateService->postValidation($request);
+        $validateData = $this->validateService->postValidation($request);
         $validateData['user_id'] = Auth::user()->id;
         $validateData['is_public'] = $request->boolean('is_public');
         if ($request->hasFile('image')) {
@@ -50,42 +58,46 @@ class PostController extends Controller
         if ($post) {
             return redirect()->route('post.index')->with('success', 'Post created successfully!');
         }
+
         return redirect()->back()->with('error', 'Post creation failed!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-  
     public function edit(Post $post)
     {
         return Inertia::render('post/Edit', ['post' => $post]);
     }
 
-    
     public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
-        $validateData =  $this->validateService->postValidation($request);
+        $validateData = $this->validateService->postValidation($request);
         $validateData['user_id'] = Auth::user()->id;
         $validateData['is_public'] = $request->boolean('is_public');
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('postImages'), $imageName);
             $this->imageDelete->deleteImageIfExists($post->image, 'postImages');
             $validateData['image'] = $imageName;
-        }else{
+        } else {
             $validateData['image'] = $post->image;
         }
         // dd($post);
         $post->update($validateData);
+
         return redirect()->route('post.index')->with('success', 'Post updated successfully!');
+    }
+    public function postVisibility(Request $request, Post $post){
+        $this->authorize('update', $post);
+        $post->update([
+            'is_public' => !$post->is_public,  // Toggle visibility by flipping the current value of is_public
+            ]);
+        return response()->json([
+        'success' => true, 
+        'is_public' => $post->is_public,
+        'message' => $post->is_public ? 'Post public' : 'Post private',
+        ]);
+
     }
 
     /**

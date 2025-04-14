@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
+    Route::patch('/post/{post}/visibility', [PostController::class, 'postVisibility'])->name('post.PostVisibility');
 });
 
 require __DIR__.'/settings.php';

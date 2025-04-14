@@ -31,7 +31,7 @@ export default function Chat() {
         setController(newController);
         const signal = newController.signal;
 
-        setChatLog((prev) => [...prev, { type: 'user', text: message }]);
+        setChatLog((prev) => [...prev, { type: 'user', text: message.trim() }]);
         setMessage('');
         aiMessageRef.current = '';
 
@@ -39,7 +39,7 @@ export default function Chat() {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message }),
+                body: JSON.stringify({ message: message.trim() }),
                 signal,
             });
 
@@ -80,7 +80,6 @@ export default function Chat() {
         } catch (error: any) {
             if (error.name === 'AbortError') {
                 console.log('Fetch aborted');
-                // Cancellation is already handled in handleCancel function
             } else {
                 console.error(error);
                 setChatLog((prev) => [...prev, { type: 'error', text: 'Streaming failed.' }]);
@@ -103,7 +102,6 @@ export default function Chat() {
     const handleCancel = () => {
         if (controller) {
             controller.abort();
-            
             // Update the chat log immediately to show cancellation
             setChatLog((prev) => {
                 const updated = [...prev];
@@ -198,7 +196,7 @@ export default function Chat() {
                             onCompositionEnd={handleCompositionEnd}
                             placeholder="Type your message..."
                             rows={1}
-                            className="w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-4 pr-24 text-sm shadow-sm transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            className="w-full resize-none border border-gray-300 bg-gray-50 p-4 pr-24 text-sm shadow-sm transition-all duration-200 focus:border-blue-500 focus:outline-none sm:text-base md:max-h-45 md:min-h-[5rem] lg:max-h-40 rounded-xs"
                         />
                         <div className="absolute right-3 bottom-3 flex gap-2">
                             {message && (

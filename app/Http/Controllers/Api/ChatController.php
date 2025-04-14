@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ChatController extends Controller
 {
+    use AuthorizesRequests;
+
     public function chat(Request $request)
     {
         $userMessage = $request->input('message');
 
         return response()->stream(function () use ($userMessage) {
-            // Connect to Ollama with streaming
             $response = Http::withOptions(['stream' => true])
-                ->timeout(60)
+                ->timeout(120)
                 ->post('http://localhost:11434/api/generate', [
                     'model' => 'llama3.2',
                     'prompt' => $userMessage,
@@ -28,8 +30,8 @@ class ChatController extends Controller
             $body = $response->getBody();
 
             // Stream chunks to frontend
-            while (!$body->eof()) {
-                $chunk = $body->read(19); 
+            while (! $body->eof()) {
+                $chunk = $body->read(1024);
                 echo $chunk;
 
                 ob_flush();

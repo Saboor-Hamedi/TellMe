@@ -3,17 +3,16 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head,  router, usePage } from '@inertiajs/react';
-import { FilePenLine, Trash2 } from 'lucide-react';
+import { Head, router, usePage } from '@inertiajs/react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Button from '@mui/material/Button';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { LimitString } from '../helper/LimitString';
 import { Paginate } from '../helper/Paginate';
 import { PaginationLinks, Post } from '../helper/types';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import PostVisibility from './PostVisibility';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -61,6 +60,8 @@ export default function Index({ posts, user_id }: { posts: { data: Post[]; links
                         <TableRow>
                             <TableHead>Title</TableHead>
                             <TableHead>Content</TableHead>
+                            <TableHead>State</TableHead>
+
                             <TableHead>Edit</TableHead>
                             <TableHead>Delete</TableHead>
                         </TableRow>
@@ -70,6 +71,7 @@ export default function Index({ posts, user_id }: { posts: { data: Post[]; links
                             <TableRow key={post.id}>
                                 <TableCell>{post.title}</TableCell>
                                 <TableCell>{LimitString(post.content, 80, '...')}</TableCell>
+                                <TableCell>{post.is_public ? 'Public' : 'Private'}</TableCell>
 
                                 {user_id === post.user_id && (
                                     <>

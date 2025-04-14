@@ -21,6 +21,7 @@ export default function Create() {
         title: string;
         content: string;
         is_public: boolean;
+        
         image: File | null,
     }>({
         title: '',
@@ -80,6 +81,12 @@ export default function Create() {
                             </div>
                         </div>
 
+                        {/* Generate through ai */}
+
+                        
+
+                        
+
                         {/* Content Textarea Full Width */}
                         <div>
                             <label htmlFor="content" className="block text-sm font-medium text-gray-700">
@@ -98,7 +105,7 @@ export default function Create() {
                         </div>
 
                         {/* Publish Switch */}
-                        <div className="flex flex-row-reverse items-center justify-between space-x-2 rounded-md ">
+                        <div className="flex flex-row-reverse items-center justify-between space-x-2 rounded-md">
                             <div className="flex items-center gap-2">
                                 <Switch
                                     id="is_public"

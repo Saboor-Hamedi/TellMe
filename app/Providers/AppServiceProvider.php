@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Providers;
-use Illuminate\Support\Facades\Route;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;

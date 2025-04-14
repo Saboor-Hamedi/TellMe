@@ -2,6 +2,8 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { Post } from '../helper/types';
 import Header from '../Header';
+import PostVisibility from '../post/PostVisibility';
+import { Toaster } from 'sonner';
 
 export default function Show() {
     const { post } = usePage<{ post: Post }>().props;
@@ -9,19 +11,27 @@ export default function Show() {
 
     return (
         <>
+            <Toaster position="top-right" />
             <Header />
             <Head title={post.title} />
             <div className="flex min-h-screen items-start justify-center bg-[#FDFDFC] px-4 py-16 sm:px-6 lg:px-8 dark:bg-[#0a0a0a]">
                 <div className="w-full max-w-3xl space-y-6 rounded-2xl bg-white p-6 shadow-xl sm:p-8 dark:bg-[#1a1a1a]">
                     {/* Back Button */}
-                    <Link
-                        href={route('home')}
-                        className="inline-flex items-center gap-2 text-sm text-[#1b1b18] hover:underline dark:text-[#EDEDEC]"
-                        prefetch
-                    >
-                        <KeyboardBackspaceIcon fontSize="small" />
-                        Back to Home
-                    </Link>
+                    <div className="flex items-center justify-between bg-red-400">
+                        <div className="flex items-center gap-2">
+                            <Link
+                                href={route('home')}
+                                className="inline-flex items-center gap-2 text-sm text-[#1b1b18] hover:underline dark:text-[#EDEDEC]"
+                                prefetch
+                            >
+                                <KeyboardBackspaceIcon fontSize="small" />
+                                Back to Home
+                            </Link>
+                        </div>
+                        <div>
+                            <PostVisibility post={post} />
+                        </div>
+                    </div>
 
                     {/* Post Banner Image (Static for now) */}
                     <img

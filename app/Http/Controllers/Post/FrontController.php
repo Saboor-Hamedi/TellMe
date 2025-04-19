@@ -8,6 +8,9 @@ use Inertia\Inertia;
 
 class FrontController extends Controller
 {
+    public function home(){
+        return Inertia::render('/');
+    }
     public function index()
     {
         $posts = Post::with('user')->latest()->get();
@@ -21,7 +24,7 @@ class FrontController extends Controller
 
     public function show(Post $post)
     {
-
+        $post = $post->load('user');
         return Inertia::render('front/Show', [
             'post' => $post,
         ]);

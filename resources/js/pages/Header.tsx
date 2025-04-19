@@ -1,37 +1,49 @@
 
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { SharedData } from '@/types';
+
 export default function Header() {
     const { auth } = usePage<SharedData>().props;
+    const homePage = () => {
+       router.visit(route('home'), { preserveScroll: true }); 
+    }
     return (
-        <header className="w-full">
-            <div className="mx-auto max-w-7xl px-6 py-4 lg:px-8">
-                <nav className="flex items-center justify-end gap-4">
+        <nav className="container mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+                <div className="text-2xl font-bold text-indigo-600 cursor-pointer" onClick={homePage}>
+                    Tell Me
+                </div>
+                <div className="hidden space-x-8 md:flex">
+                    <a href="#" className="text-gray-600 hover:text-indigo-600">
+                        Features
+                    </a>
+                    <a href="#" className="text-gray-600 hover:text-indigo-600">
+                        Stories
+                    </a>
+                    <a href="#" className="text-gray-600 hover:text-indigo-600">
+                        Pricing
+                    </a>
+                    <a href="#" className="text-gray-600 hover:text-indigo-600">
+                        About
+                    </a>
+                </div>
+                <div className="flex space-x-4">
                     {auth.user ? (
-                        <Link
-                            href={route('dashboard')}
-                            className="inline-block rounded-lg bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                        >
+                        <Link href={route('dashboard')} className="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
                             Dashboard
                         </Link>
                     ) : (
                         <>
-                            <Link
-                                href={route('login')}
-                                className="inline-block rounded-lg border border-black px-5 py-2 text-sm font-medium text-black transition hover:bg-gray-100 dark:border-white dark:text-white dark:hover:bg-gray-900"
-                            >
+                            <Link href={route('login')} className="rounded-lg px-4 py-2 text-gray-600 hover:bg-gray-100">
                                 Log in
                             </Link>
-                            <Link
-                                href={route('register')}
-                                className="inline-block rounded-lg bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
-                            >
+                            <Link href={route('register')} className="rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
                                 Register
                             </Link>
                         </>
                     )}
-                </nav>
+                </div>
             </div>
-        </header>
+        </nav>
     );
 }

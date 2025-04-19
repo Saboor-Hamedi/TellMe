@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Post\FrontController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,10 +18,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
     Route::post('/post', [PostController::class, 'store'])->name('post.store');
     Route::delete('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::get('/post/{post}/show', [PostController::class, 'show'])->name('post.show');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
     Route::patch('/post/{post}/visibility', [PostController::class, 'postVisibility'])->name('post.PostVisibility');
 });
+
+// public profile 
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

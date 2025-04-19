@@ -27,8 +27,9 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
         $userId = Auth::id();
+        $posts = Post::orderBy('created_at', 'desc')
+            ->where('user_id', $userId)->paginate(3);
 
         return Inertia::render('post/Index',
             [
@@ -62,6 +63,19 @@ class PostController extends Controller
         return redirect()->back()->with('error', 'Post creation failed!');
     }
 
+    public function show(Post $post)
+    {
+        try {
+            $this->authorize('view', $post);
+
+            return Inertia::render('post/Show', [
+                'post' => $post,
+            ]);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('post.index')->with('error', 'ID not found');
+        }
+    }
+
     public function edit(Post $post)
     {
         return Inertia::render('post/Edit', ['post' => $post]);
@@ -87,15 +101,19 @@ class PostController extends Controller
 
         return redirect()->route('post.index')->with('success', 'Post updated successfully!');
     }
-    public function postVisibility(Request $request, Post $post){
+
+    public function postVisibility(Request $request, Post $post)
+    {
         $this->authorize('update', $post);
+        $post->load('user');
         $post->update([
-            'is_public' => !$post->is_public,  // Toggle visibility by flipping the current value of is_public
-            ]);
+            'is_public' => ! $post->is_public,  
+        ]);
+
         return response()->json([
-        'success' => true, 
-        'is_public' => $post->is_public,
-        'message' => $post->is_public ? 'Post public' : 'Post private',
+            'success' => true,
+            'is_public' => $post->is_public,
+            'message' => $post->is_public ? 'Post public' : 'Post private',
         ]);
 
     }

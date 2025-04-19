@@ -1,114 +1,137 @@
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { Post } from '../helper/types';
-import Header from '../Header';
-import PostVisibility from '../post/PostVisibility';
+import { useState } from 'react';
 import { Toaster } from 'sonner';
-
+import Header from '../Header';
+import { Post } from '../helper/types';
+import PostVisibility from '../post/PostVisibility';
+import { Facebook, Twitter } from 'lucide-react';
 export default function Show() {
-    const { post } = usePage<{ post: Post }>().props;
-    const readingTime = Math.ceil(post.content.split(' ').length / 200);
+   const { post: initialPost } = usePage<{ post: Post }>().props;
+   const [post, setPost] = useState(initialPost);
 
+   const updatePostVisibility = (postId: number, newVisibility: boolean) => {
+       if (post.id === postId) {
+           setPost((prevPost) => ({ ...prevPost, is_public: newVisibility }));
+           if (newVisibility == false) {
+               router.visit(route('home'), { preserveScroll: true }); 
+           }
+       }
+   };
     return (
         <>
             <Toaster position="top-right" />
             <Header />
             <Head title={post.title} />
-            <div className="flex min-h-screen items-start justify-center bg-[#FDFDFC] px-4 py-16 sm:px-6 lg:px-8 dark:bg-[#0a0a0a]">
-                <div className="w-full max-w-3xl space-y-6 rounded-2xl bg-white p-6 shadow-xl sm:p-8 dark:bg-[#1a1a1a]">
-                    {/* Back Button */}
-                    <div className="flex items-center justify-between bg-red-400">
-                        <div className="flex items-center gap-2">
-                            <Link
-                                href={route('home')}
-                                className="inline-flex items-center gap-2 text-sm text-[#1b1b18] hover:underline dark:text-[#EDEDEC]"
-                                prefetch
-                            >
-                                <KeyboardBackspaceIcon fontSize="small" />
-                                Back to Home
-                            </Link>
-                        </div>
-                        <div>
-                            <PostVisibility post={post} />
-                        </div>
+            <div className="flex items-start justify-center bg-gradient-to-b from-indigo-50 to-purple-50 lg:px-8 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800">
+                <div className="mt-1 w-full max-w-4xl space-y-6 rounded-xl bg-white p-6 shadow-lg sm:p-8 dark:bg-gray-800">
+                    {/* Back Button and Post Controls */}
+                    <div className="flex items-center justify-between">
+                        <Link
+                            href={route('home')}
+                            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-gray-700"
+                            prefetch
+                        >
+                            <KeyboardBackspaceIcon fontSize="small" />
+                            Back to Home
+                        </Link>
+                        <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                     </div>
 
-                    {/* Post Banner Image (Static for now) */}
-                    <img
-                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
-                        alt={post.user?.name || 'User'}
-                        className="w-full rounded-lg object-cover"
-                    />
+                    {/* Post Banner Image */}
+                    <div className="overflow-hidden rounded-lg shadow-md">
+                        <img
+                            src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                            alt={post.user?.name || 'User'}
+                            className="h-48 w-full object-cover md:h-64"
+                        />
+                    </div>
 
                     {/* Author Info */}
-                    <div className="mt-4 flex items-center gap-4">
-                        <img src="/storage/default/default-profile.png" alt="Author avatar" className="h-10 w-10 rounded-full object-cover" />
+                    <div className="mt-6 flex items-center gap-4">
+                        <div className="h-12 w-12 overflow-hidden rounded-full bg-white ring-2 ring-indigo-200">
+                            <img src="/storage/default/default-profile.png" alt="Author avatar" className="h-full w-full object-cover" />
+                        </div>
                         <div>
-                            <p className="text-sm font-medium text-[#1b1b18] dark:text-[#EDEDEC]">John Doe</p>
-                            <p className="text-xs text-[#5a5a58] dark:text-[#a5a5a5]">Content Creator & Blogger</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{post.user?.name || 'Anonymous'}</p>
+                            <p className="text-xs text-indigo-500 dark:text-indigo-400">Content Creator & Blogger</p>
                         </div>
                     </div>
 
                     {/* Post Meta */}
-                    <div className="text-sm text-[#5a5a58] dark:text-[#a5a5a5]">
-                        <span className="text-xs text-gray-500">
+                    <div className="flex items-center gap-4 text-sm">
+                        <span className="text-xs text-indigo-400">
                             {new Date(post.created_at).toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
                                 year: 'numeric',
                             })}
-                        </span>{' '}
-                        min read
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">• 5 min read</span>
                     </div>
 
                     {/* Tags */}
                     <div className="mt-4 flex flex-wrap gap-2">
                         {['Laravel', 'React', 'Inertia'].map((tag) => (
-                            <span key={tag} className="rounded-full bg-[#eee] px-3 py-1 text-sm text-[#1b1b18] dark:bg-[#2a2a2a] dark:text-[#ededec]">
+                            <span
+                                key={tag}
+                                className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
+                            >
                                 #{tag}
                             </span>
                         ))}
                     </div>
 
                     {/* Separator */}
-                    <div className="h-[2px] w-16 rounded bg-[#1b1b18]/20 dark:bg-[#EDEDEC]/20" />
+                    <div className="h-[2px] w-16 rounded bg-gradient-to-r from-indigo-300 to-purple-300" />
 
                     {/* Post Title */}
-                    <h1 className="text-3xl leading-tight font-bold text-[#1b1b18] sm:text-4xl dark:text-[#EDEDEC]">{post.title}</h1>
+                    <h1 className="text-3xl leading-tight font-bold text-gray-900 sm:text-4xl dark:text-white">{post.title}</h1>
 
                     {/* Post Content */}
-                    <p className="text-lg leading-relaxed text-[#3a3a36] dark:text-[#c9c9c9]">{post.content}</p>
+                    <article className="prose dark:prose-invert max-w-none pt-4 text-gray-600 dark:text-gray-300">{post.content}</article>
 
                     {/* Share Buttons */}
-                    <div className="mt-8 flex gap-4">
-                        <button className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">Share on Twitter</button>
-                        <button className="rounded-md bg-[#3b5998] px-4 py-2 text-white hover:bg-[#2d4373]">Share on Facebook</button>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
+                            {/* <Twitter fontSize="small" /> */}
+                            <Twitter size={16} />
+                            Share on Twitter
+                        </button>
+                        <button className="flex items-center gap-2 rounded-lg bg-[#3b5998] px-4 py-2 text-sm text-white hover:bg-[#2d4373]">
+                            <Facebook size={16} />
+                            Share on Facebook
+                        </button>
                     </div>
 
                     {/* Comments Section */}
-                    <div className="mt-12 space-y-4">
-                        <h3 className="text-xl font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">Comments</h3>
+                    <div className="mt-12 space-y-6">
+                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Comments</h3>
 
                         {/* Comment Form */}
-                        <form className="flex flex-col gap-2">
+                        <form className="flex flex-col gap-3">
                             <textarea
-                                className="rounded-md border border-gray-300 p-3 text-sm dark:border-gray-600 dark:bg-[#1a1a1a] dark:text-white"
-                                rows={3}
-                                placeholder="Write a comment..."
+                                className="rounded-lg border border-gray-200 p-4 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                rows={4}
+                                placeholder="Share your thoughts..."
                             />
                             <button
                                 type="submit"
-                                className="self-end rounded-md bg-[#1b1b18] px-4 py-2 text-white hover:bg-[#3a3a36] dark:bg-[#EDEDEC] dark:text-[#1b1b18]"
+                                className="self-end rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-700"
                             >
                                 Post Comment
                             </button>
                         </form>
 
-                        {/* Static Comments */}
-                        <div className="space-y-2">
-                            <div className="rounded-md bg-[#f1f1f1] p-3 text-sm dark:bg-[#2a2a2a] dark:text-[#EDEDEC]">
-                                <p>
-                                    <strong>Jane Doe:</strong> Great post! Helped me a lot.
+                        {/* Comments List */}
+                        <div className="space-y-4">
+                            <div className="rounded-xl bg-indigo-50 p-4 text-sm dark:bg-gray-700">
+                                <div className="flex items-center gap-3">
+                                    <div className="h-8 w-8 rounded-full bg-indigo-100"></div>
+                                    <span className="font-medium text-gray-900 dark:text-white">Jane Doe</span>
+                                </div>
+                                <p className="mt-2 text-gray-700 dark:text-gray-300">
+                                    Great post! The examples really helped me understand the concepts better.
                                 </p>
                             </div>
                         </div>
@@ -116,8 +139,8 @@ export default function Show() {
 
                     {/* Related Posts */}
                     <div className="mt-12">
-                        <h3 className="mb-4 text-xl font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">Related Posts</h3>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <h3 className="mb-6 text-xl font-semibold text-gray-900 dark:text-white">Related Stories</h3>
+                        <div className="grid gap-4 sm:grid-cols-2">
                             {[
                                 { id: 1, title: 'Getting started with Laravel Livewire' },
                                 { id: 2, title: 'Integrating React with Laravel using Inertia' },
@@ -125,9 +148,10 @@ export default function Show() {
                                 <Link
                                     key={related.id}
                                     href="#"
-                                    className="block rounded-lg border p-4 hover:shadow dark:border-[#3a3a36] dark:bg-[#1f1f1f]"
+                                    className="block rounded-xl border border-gray-200 p-4 transition-all hover:border-indigo-300 hover:shadow-md dark:border-gray-700 dark:hover:border-indigo-500"
                                 >
-                                    <h4 className="font-medium text-[#1b1b18] dark:text-[#EDEDEC]">{related.title}</h4>
+                                    <h4 className="font-medium text-gray-900 dark:text-white">{related.title}</h4>
+                                    <p className="mt-1 text-xs text-indigo-500">Read more →</p>
                                 </Link>
                             ))}
                         </div>

@@ -6,6 +6,8 @@ import Header from '../Header';
 import { Post } from '../helper/types';
 import PostVisibility from '../post/PostVisibility';
 import { Facebook, Twitter } from 'lucide-react';
+import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
+import { ToUpper } from '../helper/Case';
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
    const [post, setPost] = useState(initialPost);
@@ -53,7 +55,9 @@ export default function Show() {
                             <img src="/storage/default/default-profile.png" alt="Author avatar" className="h-full w-full object-cover" />
                         </div>
                         <div>
-                            <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{post.user?.name || 'Anonymous'}</p>
+                            <span className="block text-sm font-semibold">
+                                <a href={show.url(post.id)}>{ToUpper(post.user?.name) || 'no name'}</a>
+                            </span>
                             <p className="text-xs text-indigo-500 dark:text-indigo-400">Content Creator & Blogger</p>
                         </div>
                     </div>
@@ -86,7 +90,9 @@ export default function Show() {
                     <div className="h-[2px] w-16 rounded bg-gradient-to-r from-indigo-300 to-purple-300" />
 
                     {/* Post Title */}
-                    <h1 className="text-3xl leading-tight font-bold text-gray-900 sm:text-4xl dark:text-white">{post.title}</h1>
+                    <h1 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
+                        {ToUpper(post.title) || 'No Title'}
+                    </h1>
 
                     {/* Post Content */}
                     <article className="prose dark:prose-invert max-w-none pt-4 text-gray-600 dark:text-gray-300">{post.content}</article>

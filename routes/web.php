@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Post\FrontController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\profile\ProfileController;
+use App\Http\Controllers\scrape\ScrapeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -24,8 +25,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/post/{post}/visibility', [PostController::class, 'postVisibility'])->name('post.PostVisibility');
 });
 
-// public profile 
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+// public profile
+Route::get('/profile/{user:name}', [ProfileController::class, 'profile'])->name('profile');
+
+// scraps
+Route::get('/scrape', [ScrapeController::class, 'index'])->name('scrape.index');
+Route::post('/scrape/process', [ScrapeController::class, 'process'])->name('scrape.process');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

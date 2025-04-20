@@ -107,7 +107,7 @@ class PostController extends Controller
         $this->authorize('update', $post);
         $post->load('user');
         $post->update([
-            'is_public' => ! $post->is_public,  
+            'is_public' => ! $post->is_public,
         ]);
 
         return response()->json([

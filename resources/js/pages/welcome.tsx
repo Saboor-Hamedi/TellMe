@@ -7,8 +7,7 @@ import { useState } from 'react';
 import {  Toaster } from 'sonner';
 import PostVisibility from './post/PostVisibility';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
-import {profile} from '@/actions/App/Http/Controllers/profile/ProfileController';
-
+import {ToUpper} from './helper/Case';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,8 +38,8 @@ export default function Welcome() {
                             className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                         >
                             {/* Card Header */}
-                            <div className="border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-4">
-                                <div className="flex items-start gap-3">
+                            <div className="border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
+                                <div className="flex items-center gap-4 rounded-md p-2">
                                     <div className="h-10 w-10 overflow-hidden rounded-full bg-white ring-2 ring-indigo-200">
                                         <img
                                             src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
@@ -50,14 +49,9 @@ export default function Welcome() {
                                     </div>
 
                                     <div className="flex-1">
-                                        <h3 className="text-sm font-semibold text-gray-900 transition-colors group-hover:text-indigo-600">
-                                            {post.title}
-                                        </h3>
-                                        <div className="flex flex-col">
-                                            <Link href={route('profile')}>
-                                                <span className="text-xs text-indigo-500">{post.user?.name || 'Anonymous'}</span>
-                                            </Link>
-                                        </div>
+                                        <Link href={route('profile', post.user?.name)}>
+                                            <span className="block text-sm font-semibold">{ToUpper(post.user?.name) || 'Anonymous'}</span>
+                                        </Link>
                                     </div>
 
                                     {/* dropdown menu */}
@@ -67,6 +61,8 @@ export default function Welcome() {
 
                             {/* Card Body */}
                             <div className="flex-grow bg-white p-5">
+                                <h3 className="lg:text-lg md:text-[15px] sm:text-[12px] leading-tight font-bold text-gray-900 sm:text-4xl dark:text-white">{ToUpper(post.title)}</h3>
+                              
                                 <span className="text-xs text-indigo-400">
                                     {new Date(post.created_at).toLocaleDateString('en-US', {
                                         month: 'short',

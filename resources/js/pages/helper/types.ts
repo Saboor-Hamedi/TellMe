@@ -18,4 +18,6 @@ export interface User {
     id: number;
     name: string;
     avatar?: string; 
+    posts?: Post[];
+    
 }

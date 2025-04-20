@@ -1,7 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { Post } from '../helper/types';
-import Header from '../Header';
 import PostVisibility from '../post/PostVisibility';
 import { Toaster } from 'sonner';
 import { BreadcrumbItem } from '@/types';

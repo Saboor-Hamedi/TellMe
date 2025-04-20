@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::index
- * @see app\Http\Controllers\Post\FrontController.php:14
+ * @see app\Http\Controllers\Post\FrontController.php:16
  * @route /
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ index.definition = {
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::index
- * @see app\Http\Controllers\Post\FrontController.php:14
+ * @see app\Http\Controllers\Post\FrontController.php:16
  * @route /
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -29,7 +29,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::index
- * @see app\Http\Controllers\Post\FrontController.php:14
+ * @see app\Http\Controllers\Post\FrontController.php:16
  * @route /
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -42,7 +42,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::index
- * @see app\Http\Controllers\Post\FrontController.php:14
+ * @see app\Http\Controllers\Post\FrontController.php:16
  * @route /
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -56,7 +56,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::show
- * @see app\Http\Controllers\Post\FrontController.php:25
+ * @see app\Http\Controllers\Post\FrontController.php:27
  * @route /front/{post}
  */
 export const show = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -74,7 +74,7 @@ show.definition = {
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::show
- * @see app\Http\Controllers\Post\FrontController.php:25
+ * @see app\Http\Controllers\Post\FrontController.php:27
  * @route /front/{post}
  */
 show.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -105,7 +105,7 @@ show.url = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::show
- * @see app\Http\Controllers\Post\FrontController.php:25
+ * @see app\Http\Controllers\Post\FrontController.php:27
  * @route /front/{post}
  */
 show.get = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -118,7 +118,7 @@ show.get = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\Post\FrontController::show
- * @see app\Http\Controllers\Post\FrontController.php:25
+ * @see app\Http\Controllers\Post\FrontController.php:27
  * @route /front/{post}
  */
 show.head = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

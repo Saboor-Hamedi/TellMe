@@ -8,6 +8,7 @@ import PostVisibility from '../post/PostVisibility';
 import { Facebook, Twitter } from 'lucide-react';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
 import { ToUpper } from '../helper/Case';
+import ProfileController from '@/actions/App/Http/Controllers/profile/ProfileController';
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
    const [post, setPost] = useState(initialPost);
@@ -20,6 +21,20 @@ export default function Show() {
            }
        }
    };
+  const PostShow = () => {
+      const { backUrl } = usePage().props;
+
+      return (
+          <Link
+              href={String(backUrl)} // Dynamic URL passed from Laravel
+              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-gray-700"
+              prefetch
+          >
+              <KeyboardBackspaceIcon fontSize="small" />
+              Back to Home
+          </Link>
+      );
+  };
     return (
         <>
             <Toaster position="top-right" />
@@ -29,14 +44,15 @@ export default function Show() {
                 <div className="mt-1 w-full max-w-4xl space-y-6 rounded-xl bg-white p-6 shadow-lg sm:p-8 dark:bg-gray-800">
                     {/* Back Button and Post Controls */}
                     <div className="flex items-center justify-between">
-                        <Link
+                        {/* <Link
                             href={route('home')}
                             className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-gray-700"
                             prefetch
                         >
                             <KeyboardBackspaceIcon fontSize="small" />
                             Back to Home
-                        </Link>
+                        </Link> */}
+                        {PostShow()}
                         <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                     </div>
 

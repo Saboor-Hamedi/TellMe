@@ -6,14 +6,11 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\profile\ProfileController;
 use App\Http\Controllers\scrape\ScrapeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/front/{post}', [FrontController::class, 'show'])->name('front.show');
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::get('dashboard', function () {
-    //     return Inertia::render('dashboard');
-    // })->name('dashboard');
+    
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/post/index', [PostController::class, 'index'])->name('post.index');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
@@ -27,10 +24,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // public profile
 Route::get('/profile/{user:name}', [ProfileController::class, 'profile'])->name('profile');
-
 // scraps
 Route::get('/scrape', [ScrapeController::class, 'index'])->name('scrape.index');
 Route::post('/scrape/process', [ScrapeController::class, 'process'])->name('scrape.process');
+
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

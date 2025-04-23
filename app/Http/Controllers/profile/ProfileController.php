@@ -9,13 +9,19 @@ use Inertia\Inertia;
 class ProfileController extends Controller
 {
      public function profile(User $user)
-    {
-        $user->load(['posts' => function($query) {
-            $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
-                  ->latest();
-        }]);
+        {
+            $user->load(['posts' => function($query) {
+                $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
+                    ->latest();
+            }]);
 
-        return Inertia::render('profile/Profile', [
-            'user' => $user]);
-    }
+
+
+            return Inertia::render('profile/Profile', [
+                'user' => $user]);
+        }
+
+   
+
+    
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Services\PreviousURL;
 use Inertia\Inertia;
 
 class FrontController extends Controller
@@ -16,7 +17,6 @@ class FrontController extends Controller
     public function index()
     {
         $posts = Post::with('user')->latest()->get();
-
         return Inertia::render('welcome', [
             'posts' => [
                 'data' => $posts, // Wrap $posts in an object with a data property
@@ -28,8 +28,13 @@ class FrontController extends Controller
     {
         $post = $post->load('user');
 
+        
+    // previous url for back button
+      $backUrl =  PreviousURL::toPreviousURL('previousURL');
+       
         return Inertia::render('front/Show', [
             'post' => $post,
+            'backUrl' => $backUrl,
         ]);
     }
 }

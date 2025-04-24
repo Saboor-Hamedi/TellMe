@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/front/{post}', [FrontController::class, 'show'])->name('front.show');
 Route::middleware(['auth', 'verified'])->group(function () {
-    
+
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/post/index', [PostController::class, 'index'])->name('post.index');
     Route::get('/post/create', [PostController::class, 'create'])->name('post.create');
@@ -27,8 +27,6 @@ Route::get('/profile/{user:name}', [ProfileController::class, 'profile'])->name(
 // scraps
 Route::get('/scrape', [ScrapeController::class, 'index'])->name('scrape.index');
 Route::post('/scrape/process', [ScrapeController::class, 'process'])->name('scrape.process');
-
-
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

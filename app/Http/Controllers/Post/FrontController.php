@@ -16,7 +16,9 @@ class FrontController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
+        // $posts = Post::with('user')->latest()->get();
+        $posts = Post::latest()->get();
+        // $posts->load(['user.profile']);
         return Inertia::render('welcome', [
             'posts' => [
                 'data' => $posts, // Wrap $posts in an object with a data property
@@ -28,10 +30,9 @@ class FrontController extends Controller
     {
         $post = $post->load('user');
 
-        
-    // previous url for back button
-      $backUrl =  PreviousURL::toPreviousURL('previousURL');
-       
+        // previous url for back button
+        $backUrl = PreviousURL::toPreviousURL('previousURL');
+
         return Inertia::render('front/Show', [
             'post' => $post,
             'backUrl' => $backUrl,

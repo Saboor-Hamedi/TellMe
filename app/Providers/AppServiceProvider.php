@@ -23,10 +23,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
+        Model::automaticallyEagerLoadRelationships();
         Model::shouldBeStrict(! app()->isProduction());
 
         // change the name of the route parameter to be case insensitive.
-        Route::bind('user', function ($value){
+        Route::bind('user', function ($value) {
             return User::whereRaw('LOWER(name) = ?', [strtolower($value)])->firstOrFail();
         });
     }

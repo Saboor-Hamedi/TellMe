@@ -1,4 +1,4 @@
 export const ToUpper = (name: string) =>
-  name
+  (name ?? '')
     .toLowerCase()
     .replace(/\b\w/g, (char) => char.toUpperCase());

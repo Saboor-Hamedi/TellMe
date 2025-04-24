@@ -1,11 +1,12 @@
-import { BreadcrumbItem } from "@/types";
-import { Head, usePage } from "@inertiajs/react";
-import Header from "../Header";
-import { InstagramIcon, LinkedinIcon, TwitterIcon } from "lucide-react";
-import {Post} from "../helper/types";
-import {User} from "../helper/types";
-import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
-import {ToUpper} from '../helper/Case';
+import { show } from '@/actions/App/Http/Controllers/Post/FrontController';
+import { BreadcrumbItem } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
+import Header from '../Header';
+import { ToUpper } from '../helper/Case';
+import { Post, User } from '../helper/types';
+
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,7 +17,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Profile() {
     // const { user } = usePage<{ user: User}>().props;
     const { user } = usePage<{ user: User & { posts: Post[] } }>().props;
+    const BackHome = () => {
+        const { backUrl } = usePage().props;
 
+        return (
+            <Link
+                href={String(backUrl)}
+                className="mb-2 inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
+                prefetch
+            >
+                <KeyboardBackspaceIcon fontSize="small" />
+                Back to Home
+            </Link>
+        );
+    };
 
     return (
         <>
@@ -24,7 +38,8 @@ export default function Profile() {
             <Header />
             {/* Profile Card */}
 
-            <div className="mx-auto mt-5 mb-5 max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-4 shadow-md sm:p-6 dark:from-gray-900 dark:to-gray-800">
+            <div className="mx-auto mt-5 w-full max-w-4xl space-y-6 overflow-hidden rounded-md bg-gray-100 lg:px-2 lg:py-2">
+                <div className="flex items-center justify-between">{BackHome()}</div>
                 {/* Background Image */}
                 <div className="relative h-40 w-full bg-gradient-to-r from-indigo-500 to-purple-600 sm:h-48 dark:from-indigo-700 dark:to-purple-800">
                     <img
@@ -56,7 +71,10 @@ export default function Profile() {
                     <div className="pt-16 sm:pt-20 md:pl-40">
                         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between">
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">{user.name || 'no name'}</h1>
+                                <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
+                                    {ToUpper(user.name) || 'no name'} {user.profile ? ToUpper(user.profile.lastname) : ''}
+                                </h1>
+
                                 <p className="text-sm text-indigo-600 sm:text-base dark:text-indigo-400">Storyteller & Content Creator</p>
                             </div>
                             <div className="mt-3 flex gap-2 sm:mt-0">
@@ -106,7 +124,7 @@ export default function Profile() {
                 </div>
             </div>
             {/* post */}
-            {user.posts && user.posts.length > 0 && (
+            {user.posts?.length > 0 ? (
                 <div className="mx-auto mt-8 w-full max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-4 px-4 shadow-md sm:p-6 sm:px-6 lg:px-3 dark:from-gray-900 dark:to-gray-800">
                     <h2 className="mb-6 text-xl font-bold text-indigo-600 dark:text-indigo-400">Posts by {user.name}</h2>
                     <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
@@ -189,6 +207,23 @@ export default function Profile() {
                             </div>
                         ))}
                     </div>
+                </div>
+            ) : (
+                <div className="mx-auto mt-5 mb-5 max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-3 shadow-md dark:from-gray-900 dark:to-gray-800">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-12 w-12 text-indigo-400 dark:text-indigo-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75v14.5m7.25-7.25H4.75" />
+                    </svg>
+                    <h2 className="mt-4 text-xl font-bold text-indigo-600 dark:text-indigo-400">No Posts Yet</h2>
+                    <p className="mt-2 max-w-sm text-sm text-gray-600 dark:text-gray-400">
+                        Looks like <span className="font-semibold">{user.name}</span> hasn’t posted anything yet. Stay tuned for updates!
+                    </p>
                 </div>
             )}
 

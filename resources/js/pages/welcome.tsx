@@ -11,7 +11,7 @@ import {ToUpper} from './helper/Case';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Welcome',
+        title: 'Home',
         href: '/welcome',
     },
 ];
@@ -25,7 +25,7 @@ export default function Welcome() {
    
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="Home" />
             <Toaster position="top-right" />
             <Hero />
             {/* cards */}
@@ -50,7 +50,7 @@ export default function Welcome() {
 
                                     <div className="flex-1">
                                         <Link href={route('profile', post.user?.name)}>
-                                            <span className="block text-sm font-semibold">{ToUpper(post.user?.name) || 'Anonymous'}</span>
+                                            <span className="block text-sm font-semibold">{ToUpper(post.author)} {post.lastname}</span>
                                         </Link>
                                     </div>
 

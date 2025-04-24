@@ -1,4 +1,25 @@
+*{
+    box-sizing: border-box;
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --transition-duration: 150ms;
+    --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-property: all;
+    --transition-timing-function: ease-in-out;
+    --transition-delay: 0s;
+    --transition-transform-origin: center;
+    --transition-transform-style: preserve-3d;
+    --transition-transform-origin-x: auto;
+    --transition-transform-origin-y: auto;
+    --transition-transform-origin-z: auto;
+    --transition-transform-origin-zoom: auto;
+    --transition-transform-origin-scale: auto;
+    --transition-transform-origin-translate: auto;
+    --transition-transform-origin-perspective: auto;
+    --transition-transform-origin-skew: auto;
+}
+
 @import 'tailwindcss';
+
 
 @plugin 'tailwindcss-animate';
 

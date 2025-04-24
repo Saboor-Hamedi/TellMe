@@ -12,6 +12,8 @@ export interface Post {
     created_at: string;
     image: File | null;
     user: User;
+    author: string;
+    lastname: string;
 }
 
 export interface User {
@@ -19,5 +21,8 @@ export interface User {
     name: string;
     avatar?: string; 
     posts?: Post[];
-    
+    profile?: Profile;
+}
+export interface Profile{
+    lastname: string;
 }

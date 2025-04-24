@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:79
+ * @see app\Http\Controllers\PostController.php:78
  * @route /post/{post}/edit
  */
 export const edit = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ edit.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:79
+ * @see app\Http\Controllers\PostController.php:78
  * @route /post/{post}/edit
  */
 edit.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ edit.url = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:79
+ * @see app\Http\Controllers\PostController.php:78
  * @route /post/{post}/edit
  */
 edit.get = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ edit.get = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:79
+ * @see app\Http\Controllers\PostController.php:78
  * @route /post/{post}/edit
  */
 edit.head = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

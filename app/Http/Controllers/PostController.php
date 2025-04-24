@@ -26,11 +26,10 @@ class PostController extends Controller
 
     public function index()
     {
-
         $userId = Auth::id();
-        $posts = Post::orderBy('created_at', 'desc')
-            ->where('user_id', $userId)->paginate(3);
-
+        $posts = Post::latest()
+            ->where('user_id', $userId)
+            ->paginate(3);
         return Inertia::render('post/Index',
             [
                 'posts' => $posts,

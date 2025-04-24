@@ -8,7 +8,6 @@ import PostVisibility from '../post/PostVisibility';
 import { Facebook, Twitter } from 'lucide-react';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
 import { ToUpper } from '../helper/Case';
-import ProfileController from '@/actions/App/Http/Controllers/profile/ProfileController';
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
    const [post, setPost] = useState(initialPost);
@@ -21,13 +20,14 @@ export default function Show() {
            }
        }
    };
-  const PostShow = () => {
-      const { backUrl } = usePage().props;
 
+    // This returns to the previous URL
+  const BackHome = () => {
+      const { backUrl } = usePage().props;
       return (
           <Link
               href={String(backUrl)} // Dynamic URL passed from Laravel
-              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-gray-700"
+              className="inline-flex items-center gap-2 rounded-sm p-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
               prefetch
           >
               <KeyboardBackspaceIcon fontSize="small" />
@@ -40,24 +40,16 @@ export default function Show() {
             <Toaster position="top-right" />
             <Header />
             <Head title={post.title} />
-            <div className="flex items-start justify-center bg-gradient-to-b from-indigo-50 to-purple-50 lg:px-8 dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-800">
-                <div className="mt-1 w-full max-w-4xl space-y-6 rounded-xl bg-white p-6 shadow-lg sm:p-8 dark:bg-gray-800">
+            <div className="flex items-start justify-center">
+                <div className="mt-2 w-full max-w-4xl space-y-6 rounded-md lg:py-2 lg:px-2 bg-gray-100">
                     {/* Back Button and Post Controls */}
                     <div className="flex items-center justify-between">
-                        {/* <Link
-                            href={route('home')}
-                            className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-gray-700"
-                            prefetch
-                        >
-                            <KeyboardBackspaceIcon fontSize="small" />
-                            Back to Home
-                        </Link> */}
-                        {PostShow()}
+                        {BackHome()}
                         <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                     </div>
 
                     {/* Post Banner Image */}
-                    <div className="overflow-hidden rounded-lg shadow-md">
+                    <div className="overflow-hidden rounded-lg shadow-xs">
                         <img
                             src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
                             alt={post.user?.name || 'User'}
@@ -72,7 +64,7 @@ export default function Show() {
                         </div>
                         <div>
                             <span className="block text-sm font-semibold">
-                                <a href={show.url(post.id)}>{ToUpper(post.user?.name) || 'no name'}</a>
+                                <a href={show.url(post.id)}>{ToUpper(post.author)}</a>
                             </span>
                             <p className="text-xs text-indigo-500 dark:text-indigo-400">Content Creator & Blogger</p>
                         </div>
@@ -116,13 +108,10 @@ export default function Show() {
                     {/* Share Buttons */}
                     <div className="mt-8 flex flex-wrap gap-3">
                         <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-                            {/* <Twitter fontSize="small" /> */}
                             <Twitter size={16} />
-                            Share on Twitter
                         </button>
                         <button className="flex items-center gap-2 rounded-lg bg-[#3b5998] px-4 py-2 text-sm text-white hover:bg-[#2d4373]">
                             <Facebook size={16} />
-                            Share on Facebook
                         </button>
                     </div>
 

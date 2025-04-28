@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../wayfinder'
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 export const profile = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ profile.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.url = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ profile.url = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.get = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ profile.get = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.head = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

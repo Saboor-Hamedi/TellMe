@@ -24,6 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // public profile
 Route::get('/profile/{user:name}', [ProfileController::class, 'profile'])->name('profile');
+Route::post('/profile/uploadBGImage', [ProfileController::class, 'uploadBGImage']);
+
 // scraps
 Route::get('/scrape', [ScrapeController::class, 'index'])->name('scrape.index');
 Route::post('/scrape/process', [ScrapeController::class, 'process'])->name('scrape.process');

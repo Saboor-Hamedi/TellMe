@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:123
+ * @see app\Http\Controllers\PostController.php:124
  * @route /post/{post}
  */
 export const destroy = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ destroy.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:123
+ * @see app\Http\Controllers\PostController.php:124
  * @route /post/{post}
  */
 destroy.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ destroy.url = (args: { post: number | { id: number } } | [post: number | { id: n
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:123
+ * @see app\Http\Controllers\PostController.php:124
  * @route /post/{post}
  */
 destroy.delete = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

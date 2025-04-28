@@ -6,7 +6,8 @@ import { InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
 import Header from '../Header';
 import { ToUpper } from '../helper/Case';
 import { Post, User } from '../helper/types';
-
+import { Toaster } from 'sonner';
+import CoverImage from './CoverImage';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,13 +15,14 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/profile',
     },
 ];
+
 export default function Profile() {
-    // const { user } = usePage<{ user: User}>().props;
     const { user } = usePage<{ user: User & { posts: Post[] } }>().props;
     const BackHome = () => {
         const { backUrl } = usePage().props;
 
         return (
+             
             <Link
                 href={String(backUrl)}
                 className="mb-2 inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
@@ -36,23 +38,12 @@ export default function Profile() {
         <>
             <Head title="Profile" />
             <Header />
+            <Toaster position="top-right" />
             {/* Profile Card */}
-
             <div className="mx-auto mt-5 w-full max-w-4xl space-y-6 overflow-hidden rounded-md bg-gray-100 lg:px-2 lg:py-2">
                 <div className="flex items-center justify-between">{BackHome()}</div>
                 {/* Background Image */}
-                <div className="relative h-40 w-full bg-gradient-to-r from-indigo-500 to-purple-600 sm:h-48 dark:from-indigo-700 dark:to-purple-800">
-                    <img
-                        src="/storage/profileImages/default-background.png"
-                        alt="Profile background"
-                        className="h-full w-full object-cover opacity-90"
-                    />
-
-                    {/* Edit Button (absolute positioned) */}
-                    <button className="absolute top-4 right-4 rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm">
-                        Edit Cover
-                    </button>
-                </div>
+               <CoverImage />
 
                 {/* Profile Content */}
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">

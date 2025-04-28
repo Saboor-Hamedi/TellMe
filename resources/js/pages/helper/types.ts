@@ -23,6 +23,7 @@ export interface User {
     posts?: Post[];
     profile?: Profile;
 }
-export interface Profile{
+export interface Profile {
     lastname: string;
+    cover_image: File | null;
 }

@@ -50,7 +50,9 @@ export default function Welcome() {
 
                                     <div className="flex-1">
                                         <Link href={route('profile', post.user?.name)}>
-                                            <span className="block text-sm font-semibold">{ToUpper(post.author)} {post.lastname}</span>
+                                            <span className="block text-sm font-semibold">
+                                                {ToUpper(post.author)} {post.lastname}
+                                            </span>
                                         </Link>
                                     </div>
 
@@ -61,8 +63,10 @@ export default function Welcome() {
 
                             {/* Card Body */}
                             <div className="flex-grow bg-white p-5">
-                                <h3 className="lg:text-lg md:text-[15px] sm:text-[12px] leading-tight font-bold text-gray-900 sm:text-4xl dark:text-white">{ToUpper(post.title)}</h3>
-                              
+                                <h3 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
+                                    {ToUpper(post.title)}
+                                </h3>
+
                                 <span className="text-xs text-indigo-400">
                                     {new Date(post.created_at).toLocaleDateString('en-US', {
                                         month: 'short',

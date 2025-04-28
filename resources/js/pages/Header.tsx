@@ -8,9 +8,9 @@ export default function Header() {
        router.visit(route('home'), { preserveScroll: true }); 
     }
     return (
-        <nav className="mx-auto px-6 py-4 shadow-md bg-gray-100">
+        <nav className="mx-auto border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 px-6 py-4 shadow-md">
             <div className="flex items-center justify-between">
-                <div className="text-2xl font-bold text-indigo-600 cursor-pointer" onClick={homePage}>
+                <div className="cursor-pointer text-2xl font-bold text-indigo-600" onClick={homePage}>
                     Tell Me
                 </div>
                 <div className="hidden space-x-8 md:flex">

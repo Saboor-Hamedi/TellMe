@@ -18,6 +18,7 @@ class FrontController extends Controller
     {
         // $posts = Post::with('user')->latest()->get();
         $posts = Post::latest()->get();
+
         // $posts->load(['user.profile']);
         return Inertia::render('welcome', [
             'posts' => [

@@ -3,29 +3,28 @@
 namespace App\Http\Controllers\profile;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
 use App\Models\User;
 use App\Services\PreviousURL;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
+        use AuthorizesRequests;
+
     public function profile(User $user)
     {
-        // $user->load(['profile','posts'  => function ($query) {
-        //     $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
-        //         ->latest();
-        // }]);
 
         $user = User::query()
-        ->with(['profile', 'posts' => function ($query) {
+            ->with(['profile', 'posts' => function ($query) {
                 $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
                     ->with('user')
                     ->latest();
             }])
             ->where('id', $user->id)
             ->first();
-
         // previous url for back button
         $backUrl = PreviousURL::toPreviousURL('previousURL');
 
@@ -33,4 +32,50 @@ class ProfileController extends Controller
             'user' => $user,
             'backUrl' => $backUrl, ]);
     }
+
+   public function uploadBGImage(Request $request)
+{
+    $request->validate([
+        'background' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user = auth()->user();
+    if (!$user) {
+            return redirect()->back()->with(['error' => 'Unauthorized: You must be logged in.'], 401);
+        }
+    try {
+        if ($request->hasFile('background')) {
+            $file = $request->file('background');
+            $path = $file->store('profileBackgrounds', 'public');
+
+            if ($user->profile && $user->profile->cover_image) {
+                Storage::disk('public')->delete($user->profile->cover_image);
+            }
+
+            $user->profile()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['cover_image' => $path]
+            );
+
+            // Reload the user with the updated profile
+            $updatedUser = User::query()
+                ->with(['profile', 'posts' => function ($query) {
+                    $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
+                        ->with('user')
+                        ->latest();
+                }])
+                ->where('id', $user->id)
+                ->first();
+
+            return Inertia::render('profile/Profile', [
+                'user' => $updatedUser,
+                'success' => 'Background updated successfully',
+            ]);
+        }
+
+        return redirect()->back()->with('error', 'No file uploaded');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Failed to update background');
+    }
+}
 }

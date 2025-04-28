@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:65
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 export const show = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ show.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:65
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ show.url = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:65
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.get = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ show.get = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:65
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.head = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 export const profile = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ profile.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.url = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ profile.url = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.get = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ profile.get = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:13
+ * @see app\Http\Controllers\profile\ProfileController.php:17
  * @route /profile/{user}
  */
 profile.head = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -76,6 +76,47 @@ profile.head = (args: { user: string | { name: string } } | [user: string | { na
 })
 
 
-const ProfileController = { profile }
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
+ * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @route /profile/uploadBGImage
+ */
+export const uploadBGImage = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: uploadBGImage.url(options),
+    method: 'post',
+})
+
+uploadBGImage.definition = {
+    methods: ['post'],
+    url: '\/profile\/uploadBGImage',
+}
+
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
+ * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @route /profile/uploadBGImage
+ */
+uploadBGImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return uploadBGImage.definition.url + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
+ * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @route /profile/uploadBGImage
+ */
+uploadBGImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: uploadBGImage.url(options),
+    method: 'post',
+})
+
+
+const ProfileController = { profile, uploadBGImage }
 
 export default ProfileController

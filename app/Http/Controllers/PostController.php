@@ -29,7 +29,8 @@ class PostController extends Controller
         $userId = Auth::id();
         $posts = Post::latest()
             ->where('user_id', $userId)
-            ->paginate(3);
+            ->paginate(100);
+
         return Inertia::render('post/Index',
             [
                 'posts' => $posts,

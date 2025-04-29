@@ -35,7 +35,7 @@ export default function Welcome() {
                     .map((post) => (
                         <div
                             key={post.id}
-                            className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md"
+                            className="group relative flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm transition-all duration-300 hover:shadow-xs"
                         >
                             {/* Card Header */}
                             <div className="border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
@@ -63,7 +63,7 @@ export default function Welcome() {
                                         </Link>
                                     </div>
 
-                                    {/* dropdown menu */}
+                                    {/* dropdown menu, make posts private and public */}
                                     <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                                 </div>
                             </div>

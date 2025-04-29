@@ -114,11 +114,11 @@ export default function Profile() {
             </div>
             {/* post */}
             {user.posts?.length > 0 ? (
-                <div className="mx-auto mt-2 grid max-w-4xl gap-3 overflow-hidden bg-white p-2  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div className="mx-auto mt-2 grid max-w-4xl gap-3 overflow-hidden bg-white p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {user.posts.map((post) => (
                         <div
                             key={post.id}
-                            className="group relative flex h-full flex-col overflow-hidden rounded-md shadow-xs transition-all duration-300 hover:shadow-md"
+                            className="group relative flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm transition-all duration-300 hover:shadow-xs"
                         >
                             {/* Card Header */}
                             <div className="flex items-center gap-4 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">

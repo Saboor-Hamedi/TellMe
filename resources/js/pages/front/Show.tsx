@@ -8,6 +8,7 @@ import PostVisibility from '../post/PostVisibility';
 import { Facebook, Twitter } from 'lucide-react';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
 import { ToUpper } from '../helper/Case';
+import { Button } from '@/components/ui/button';
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
    const [post, setPost] = useState(initialPost);
@@ -41,7 +42,7 @@ export default function Show() {
             <Header />
             <Head title={post.title} />
             <div className="flex items-start justify-center">
-                <div className="mt-2 w-full max-w-4xl rounded-md bg-gray-100">
+                <div className="mt-2 w-full max-w-4xl rounded-md bg-white shadow-sm">
                     {/* Back Button and Post Controls */}
                     <div className="flex items-center justify-between p-2">
                         {BackHome()}
@@ -87,12 +88,11 @@ export default function Show() {
                                 rows={4}
                                 placeholder="Share your thoughts..."
                             />
-                            <button
-                                type="submit"
-                                className="self-end rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                            <Button
+                                variant={'default'} className='mb-2'
                             >
                                 Post Comment
-                            </button>
+                            </Button>
                         </form>
 
                         {/* Comments List */}

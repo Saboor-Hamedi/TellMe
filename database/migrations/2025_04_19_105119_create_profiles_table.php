@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('firstname', 20)->nullable()->default('no firstname');
             $table->string('lastname', 20)->nullable()->default('no lastname');
             $table->string('bio', 150)->nullable();
             $table->string('profile_image')->nullable();

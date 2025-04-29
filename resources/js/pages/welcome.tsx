@@ -1,13 +1,13 @@
+import { show } from '@/actions/App/Http/Controllers/Post/FrontController';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { useState } from 'react';
+import { Toaster } from 'sonner';
+import { ToUpper } from './helper/Case';
 import { LimitString } from './helper/LimitString';
 import { Post } from './helper/types';
 import Hero from './Hero';
-import { useState } from 'react';
-import {  Toaster } from 'sonner';
 import PostVisibility from './post/PostVisibility';
-import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
-import {ToUpper} from './helper/Case';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,20 +22,20 @@ export default function Welcome() {
     const updatePostVisibility = (postId: number, newVisibility: boolean) => {
         setPostList((prevList) => prevList.map((post) => (post.id === postId ? { ...post, is_public: newVisibility } : post)));
     };
-   
+
     return (
         <>
             <Head title="Home" />
             <Toaster position="top-right" />
             <Hero />
             {/* cards */}
-            <div className="mx-auto grid w-full gap-6 p-4 sm:grid-cols-1 md:w-5/6 md:grid-cols-2 lg:w-4/5 lg:grid-cols-3">
+            <div className="mx-auto mt-2 grid max-w-4xl gap-3 overflow-hidden bg-white p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {postList
                     .filter((post) => post.is_public == true)
                     .map((post) => (
                         <div
                             key={post.id}
-                            className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                            className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:shadow-md"
                         >
                             {/* Card Header */}
                             <div className="border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
@@ -50,8 +50,15 @@ export default function Welcome() {
 
                                     <div className="flex-1">
                                         <Link href={route('profile', post.user?.name)}>
-                                            <span className="block text-sm font-semibold">
+                                            <span className="mt-3 flex flex-col text-sm font-semibold">
                                                 {ToUpper(post.author)} {post.lastname}
+                                                <small className="text-xs text-indigo-400">
+                                                    {new Date(post.created_at).toLocaleDateString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric',
+                                                    })}
+                                                </small>
                                             </span>
                                         </Link>
                                     </div>
@@ -67,13 +74,6 @@ export default function Welcome() {
                                     {ToUpper(post.title)}
                                 </h3>
 
-                                <span className="text-xs text-indigo-400">
-                                    {new Date(post.created_at).toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                    })}
-                                </span>
                                 <p className="my-3 line-clamp-3 text-sm text-gray-600">{LimitString(post.content, 80, '...')}</p>
                                 <div className="flex flex-wrap gap-2">
                                     <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">Technology</span>

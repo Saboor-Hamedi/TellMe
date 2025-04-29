@@ -3,10 +3,10 @@ import { BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
+import { Toaster } from 'sonner';
 import Header from '../Header';
 import { ToUpper } from '../helper/Case';
 import { Post, User } from '../helper/types';
-import { Toaster } from 'sonner';
 import CoverImage from './CoverImage';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
@@ -22,10 +22,9 @@ export default function Profile() {
         const { backUrl } = usePage().props;
 
         return (
-             
             <Link
                 href={String(backUrl)}
-                className="mb-2 inline-flex items-center gap-2 rounded-sm px-3 py-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
+                className="inline-flex items-center justify-center gap-2 rounded-sm p-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
                 prefetch
             >
                 <KeyboardBackspaceIcon fontSize="small" />
@@ -40,11 +39,10 @@ export default function Profile() {
             <Header />
             <Toaster position="top-right" />
             {/* Profile Card */}
-            <div className="mx-auto mt-5 w-full max-w-4xl space-y-6 overflow-hidden rounded-md bg-gray-100 lg:px-2 lg:py-2">
-                <div className="flex items-center justify-between">{BackHome()}</div>
+            <div className="mx-auto mt-2 max-w-4xl overflow-hidden shadow-xs">
+                <div className="flex items-center justify-between border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">{BackHome()}</div>
                 {/* Background Image */}
-               <CoverImage />
-
+                <CoverImage />
                 {/* Profile Content */}
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">
                     {/* Profile Image */}
@@ -116,88 +114,78 @@ export default function Profile() {
             </div>
             {/* post */}
             {user.posts?.length > 0 ? (
-                <div className="mx-auto mt-8 w-full max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-4 px-4 shadow-md sm:p-6 sm:px-6 lg:px-3 dark:from-gray-900 dark:to-gray-800">
-                    <h2 className="mb-6 text-xl font-bold text-indigo-600 dark:text-indigo-400">Posts by {user.name}</h2>
-                    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-                        {user.posts.map((post) => (
-                            <div
-                                key={post.id}
-                                className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-gray-800"
-                            >
-                                {/* Card Header */}
-                                <div className="mx-auto grid w-full max-w-6xl gap-6 p-4 sm:grid-cols-1 md:grid-cols-2">
-                                    <div className="flex items-center gap-2 space-x-2 p-2">
-                                        <div className="h-10 w-10 overflow-hidden rounded-full ring-2 ring-indigo-300 dark:ring-indigo-600">
-                                            <img
-                                                src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
-                                                alt="Profile Image"
-                                                className="h-full w-full object-cover"
-                                                onError={(e) => {
-                                                    const target = e.currentTarget;
-                                                    target.src = './storage/default/postImages/default-post.png';
-                                                }}
-                                            />
-                                        </div>
-                                        <div>
-                                            <span className="block text-sm font-semibold">
-                                                <a href={show.url(post.id)}>{ToUpper(user.name) || 'no name'}</a>
-                                            </span>
-                                        </div>
-                                    </div>
+                <div className="mx-auto mt-2 grid max-w-4xl gap-3 overflow-hidden bg-white p-2  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    {user.posts.map((post) => (
+                        <div
+                            key={post.id}
+                            className="group relative flex h-full flex-col overflow-hidden rounded-md shadow-xs transition-all duration-300 hover:shadow-md"
+                        >
+                            {/* Card Header */}
+                            <div className="flex items-center gap-4 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
+                                <div className="h-10 w-10 overflow-hidden rounded-full bg-white ring-2 ring-indigo-200">
+                                    <img
+                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                                        alt="Profile Image"
+                                        className="h-full w-full object-cover"
+                                        onError={(e) => {
+                                            const target = e.currentTarget;
+                                            target.src = './storage/default/postImages/default-post.png';
+                                        }}
+                                    />
                                 </div>
-
-                                {/* Card Body */}
-                                <div className="flex-grow bg-white p-4 dark:bg-gray-900">
-                                    <h3 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
-                                        {ToUpper(post.title) || 'No Title'}
-                                    </h3>
-                                    <span className="text-xs text-indigo-400 dark:text-indigo-300">
-                                        {new Date(post.created_at).toLocaleDateString('en-US', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        })}
+                                <div>
+                                    <span className="mt-3 flex flex-col text-sm font-semibold">
+                                        <Link href={show.url(post.id)}>{ToUpper(user.name) || 'no name'}</Link>
+                                        <small className="text-xs text-indigo-400 dark:text-indigo-300">
+                                            {new Date(post.created_at).toLocaleDateString('en-US', {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            })}
+                                        </small>
                                     </span>
-                                    <p className="my-3 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
-                                        {post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content}
-                                    </p>
-                                    <div className="mt-2 flex flex-wrap gap-2">
-                                        <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-700 dark:text-white">
-                                            Technology
-                                        </span>
-                                        <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700 dark:bg-purple-700 dark:text-white">
-                                            General
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Card Footer */}
-                                <div className="border-t border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-                                    <a
-                                        href={show.url(post.id)}
-                                        className="flex w-full items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 hover:shadow-md"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-4 w-4"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                            />
-                                        </svg>
-                                        Read Full Story
-                                    </a>
                                 </div>
                             </div>
-                        ))}
-                    </div>
+
+                            {/* Card Body */}
+                            <div className="flex-grow bg-white p-4 dark:bg-gray-900">
+                                <h3 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
+                                    {ToUpper(post.title) || 'No Title'}
+                                </h3>
+
+                                <p className="my-3 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
+                                    {post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content}
+                                </p>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-700 dark:text-white">
+                                        Technology
+                                    </span>
+                                    <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700 dark:bg-purple-700 dark:text-white">
+                                        General
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Card Footer */}
+                            <div className="border-t border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+                                <a
+                                    href={show.url(post.id)}
+                                    className="flex w-full items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 hover:shadow-md"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        />
+                                    </svg>
+                                    Read Full Story
+                                </a>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : (
                 <div className="mx-auto mt-5 mb-5 max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-3 shadow-md dark:from-gray-900 dark:to-gray-800">

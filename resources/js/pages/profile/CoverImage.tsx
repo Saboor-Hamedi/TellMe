@@ -58,6 +58,8 @@ export default function CoverImage() {
             });
         } finally {
             setIsSaving(false);
+            setFileToUpload(null);
+            setSelectedImage(null);
         }
     };
     // end upload background image
@@ -89,21 +91,30 @@ export default function CoverImage() {
                         {!fileToUpload && (
                             <button
                                 onClick={handleImageClick}
-                                className="absolute top-4 right-4 rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm"
+                                className="absolute top-2 right-4 rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm"
                             >
-                                Change Background
+                                Change Cover
                             </button>
                         )}
 
                         {/* Top right "Save Background" button */}
                         {fileToUpload && (
-                            <button
-                                onClick={handleSaveBackground}
-                                disabled={isSaving}
-                                className="absolute top-4 right-4 rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-                            >
-                                {isSaving ? 'Saving...' : 'Save Background'}
-                            </button>
+                            <div className="absolute top-0 flex w-full justify-end gap-2  p-2">
+                                <button
+                                    onClick={handleImageClick}
+                                    className="cursor-pointer rounded-md bg-white/90 px-2.5 py-1 text-[11px] font-medium text-indigo-600 shadow backdrop-blur-sm transition-all hover:bg-white"
+                                >
+                                    Change Cover
+                                </button>
+                                
+                                <button
+                                    onClick={handleSaveBackground}
+                                    disabled={isSaving}
+                                    className="cursor-pointer rounded-md bg-blue-600 px-2.5 py-1 text-[11px] font-medium text-white shadow transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    {isSaving ? 'Saving...' : 'Save Cover'}
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}

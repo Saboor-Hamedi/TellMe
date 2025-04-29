@@ -24,16 +24,16 @@ export default function Show() {
     // This returns to the previous URL
   const BackHome = () => {
       const { backUrl } = usePage().props;
-      return (
-          <Link
-              href={String(backUrl)} // Dynamic URL passed from Laravel
-              className="inline-flex items-center gap-2 rounded-sm p-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
-              prefetch
-          >
-              <KeyboardBackspaceIcon fontSize="small" />
-              Back to Home
-          </Link>
-      );
+       return (
+           <Link
+               href={String(backUrl)}
+               className="inline-flex items-center justify-center gap-2 rounded-sm p-2 text-sm font-medium text-indigo-600 transition delay-100 duration-200 ease-in-out hover:bg-indigo-100 dark:text-indigo-400 dark:hover:bg-gray-700"
+               prefetch
+           >
+               <KeyboardBackspaceIcon fontSize="small" />
+                Back to Home
+           </Link>
+       );
   };
     return (
         <>
@@ -41,82 +41,43 @@ export default function Show() {
             <Header />
             <Head title={post.title} />
             <div className="flex items-start justify-center">
-                <div className="mt-2 w-full max-w-4xl space-y-6 rounded-md lg:py-2 lg:px-2 bg-gray-100">
+                <div className="mt-2 w-full max-w-4xl rounded-md bg-gray-100">
                     {/* Back Button and Post Controls */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between p-2">
                         {BackHome()}
                         <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                     </div>
-
                     {/* Post Banner Image */}
-                    <div className="overflow-hidden rounded-lg shadow-xs">
+                    <div className="overflow-hidden shadow-xs">
                         <img
                             src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
                             alt={post.user?.name || 'User'}
                             className="h-48 w-full object-cover md:h-64"
                         />
                     </div>
-
-                    {/* Author Info */}
-                    <div className="mt-6 flex items-center gap-4">
-                        <div className="h-12 w-12 overflow-hidden rounded-full bg-white ring-2 ring-indigo-200">
-                            <img src="/storage/default/default-profile.png" alt="Author avatar" className="h-full w-full object-cover" />
-                        </div>
-                        <div>
-                            <span className="block text-sm font-semibold">
-                                <a href={show.url(post.id)}>{ToUpper(post.author)}</a>
-                            </span>
-                            <p className="text-xs text-indigo-500 dark:text-indigo-400">Content Creator & Blogger</p>
-                        </div>
-                    </div>
-
-                    {/* Post Meta */}
-                    <div className="flex items-center gap-4 text-sm">
-                        <span className="text-xs text-indigo-400">
+                    {/* Comments Section */}
+                    <div className="p-2">
+                        <h1 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
+                            {ToUpper(post.title) || 'No Title'}
+                        </h1>
+                        <small className="text-xs text-indigo-400">
                             {new Date(post.created_at).toLocaleDateString('en-US', {
                                 month: 'short',
                                 day: 'numeric',
                                 year: 'numeric',
                             })}
-                        </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">• 5 min read</span>
-                    </div>
-
-                    {/* Tags */}
-                    <div className="mt-4 flex flex-wrap gap-2">
-                        {['Laravel', 'React', 'Inertia'].map((tag) => (
-                            <span
-                                key={tag}
-                                className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                            >
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-
-                    {/* Separator */}
-                    <div className="h-[2px] w-16 rounded bg-gradient-to-r from-indigo-300 to-purple-300" />
-
-                    {/* Post Title */}
-                    <h1 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
-                        {ToUpper(post.title) || 'No Title'}
-                    </h1>
-
-                    {/* Post Content */}
-                    <article className="prose dark:prose-invert max-w-none pt-4 text-gray-600 dark:text-gray-300">{post.content}</article>
-
-                    {/* Share Buttons */}
-                    <div className="mt-8 flex flex-wrap gap-3">
-                        <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-                            <Twitter size={16} />
-                        </button>
-                        <button className="flex items-center gap-2 rounded-lg bg-[#3b5998] px-4 py-2 text-sm text-white hover:bg-[#2d4373]">
-                            <Facebook size={16} />
-                        </button>
-                    </div>
-
-                    {/* Comments Section */}
-                    <div className="mt-12 space-y-6">
+                        </small>
+                        <article className="prose dark:prose-invert max-w-none pt-4 text-gray-600 dark:text-gray-300">{post.content}</article>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                            {['Laravel', 'React', 'Inertia'].map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
+                                >
+                                    #{tag}
+                                </span>
+                            ))}
+                        </div>
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Comments</h3>
 
                         {/* Comment Form */}
@@ -145,26 +106,6 @@ export default function Show() {
                                     Great post! The examples really helped me understand the concepts better.
                                 </p>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Related Posts */}
-                    <div className="mt-12">
-                        <h3 className="mb-6 text-xl font-semibold text-gray-900 dark:text-white">Related Stories</h3>
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            {[
-                                { id: 1, title: 'Getting started with Laravel Livewire' },
-                                { id: 2, title: 'Integrating React with Laravel using Inertia' },
-                            ].map((related) => (
-                                <Link
-                                    key={related.id}
-                                    href="#"
-                                    className="block rounded-xl border border-gray-200 p-4 transition-all hover:border-indigo-300 hover:shadow-md dark:border-gray-700 dark:hover:border-indigo-500"
-                                >
-                                    <h4 className="font-medium text-gray-900 dark:text-white">{related.title}</h4>
-                                    <p className="mt-1 text-xs text-indigo-500">Read more →</p>
-                                </Link>
-                            ))}
                         </div>
                     </div>
                 </div>

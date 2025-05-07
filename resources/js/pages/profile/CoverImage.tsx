@@ -2,7 +2,6 @@ import { router, usePage } from '@inertiajs/react';
 import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Post, User } from '../helper/types';
-import { Button } from '@mui/material';
 import { Camera, X } from 'lucide-react';
 export default function CoverImage() {
     const fileInputRef = useRef<HTMLInputElement>(null);

@@ -26,4 +26,5 @@ export interface User {
 export interface Profile {
     lastname: string;
     cover_image: File | null;
+    profile_image: File | null;
 }

@@ -117,6 +117,47 @@ uploadBGImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 })
 
 
-const ProfileController = { profile, uploadBGImage }
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
+ * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @route /profile/uploadProfilePicture
+ */
+export const uploadProfilePicture = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: uploadProfilePicture.url(options),
+    method: 'post',
+})
+
+uploadProfilePicture.definition = {
+    methods: ['post'],
+    url: '\/profile\/uploadProfilePicture',
+}
+
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
+ * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @route /profile/uploadProfilePicture
+ */
+uploadProfilePicture.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return uploadProfilePicture.definition.url + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
+ * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @route /profile/uploadProfilePicture
+ */
+uploadProfilePicture.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'post',
+} => ({
+    url: uploadProfilePicture.url(options),
+    method: 'post',
+})
+
+
+const ProfileController = { profile, uploadBGImage, uploadProfilePicture }
 
 export default ProfileController

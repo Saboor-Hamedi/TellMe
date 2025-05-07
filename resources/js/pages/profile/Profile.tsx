@@ -1,9 +1,10 @@
 import { show } from '@/actions/App/Http/Controllers/Post/FrontController';
 import { BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
-import { Toaster } from 'sonner';
+import { Camera, InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { toast, Toaster } from 'sonner';
 import Header from '../Header';
 import { ToUpper } from '../helper/Case';
 import { Post, User } from '../helper/types';
@@ -17,7 +18,71 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Profile() {
-    const { user } = usePage<{ user: User & { posts: Post[] } }>().props;
+    // const { user, auth } = usePage<{ user: User & { posts: Post[] } }>().props;
+    const { user, auth } = usePage<{ user: User & { posts: Post[] }; auth: { user: User | null } }>().props;
+    const isProfileOwner = auth?.user?.id === user.id;
+    // Upload Profile
+    const profileInputRef = useRef<HTMLInputElement>(null);
+    const [selectedProfileImage, setSelectedProfileImage] = useState<string | null>(null);
+    const [profileFileToUpload, setProfileFileToUpload] = useState<File | null>(null);
+
+    const handleProfileImageClick = () => {
+        if (profileInputRef.current) {
+            profileInputRef.current.click();
+        }
+    };
+
+    const handleCancelProfile = () => {
+        setSelectedProfileImage(null);
+        if (profileInputRef.current) {
+            profileInputRef.current.value = '';
+        }
+    };
+    const handleSaveProfile = async () => {
+        if (profileFileToUpload) {
+            const formData = new FormData();
+            formData.append('profile_image', profileFileToUpload);
+                 await router.post('/profile/uploadProfilePicture', formData, {
+                     onSuccess: () => {
+                         toast.success('Background image updated successfully!', {
+                             duration: 2000,
+                             position: 'top-right',
+                         });
+                         setSelectedProfileImage(null);
+                         setProfileFileToUpload(null);
+                         if (profileInputRef.current) {
+                             profileInputRef.current.value = '';
+                         }
+                     },
+                     onError: (errors) => {
+                         toast.error('Failed to update background image. Please try again.', {
+                             duration: 2000,
+                             position: 'top-right',
+                         });
+                     },
+
+                 });
+           
+        } else {
+            console.log('Please select an image.');
+        }
+    };
+    const handleProfileFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            // This creates a temporary URL for the selected image
+            const previewURL = URL.createObjectURL(file);
+            setSelectedProfileImage(previewURL);
+            setProfileFileToUpload(file); // Store the file object into state
+        } else {
+            // if not found then set it to null
+            setSelectedProfileImage(null);
+            setProfileFileToUpload(null);
+        }
+    };
+
+    // end of upload
+
     const BackHome = () => {
         const { backUrl } = usePage().props;
 
@@ -46,14 +111,62 @@ export default function Profile() {
                 {/* Profile Content */}
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">
                     {/* Profile Image */}
-                    <div className="sm-top-16 absolute -top-12 left-4 overflow-hidden rounded-full ring-4 ring-white sm:left-6 dark:ring-gray-800">
-                        <img
-                            src="/storage/default/default-profile.png"
-                            alt="User profile"
-                            className="h-24 w-24 bg-white object-cover sm:h-32 sm:w-32"
-                        />
-                        {/* Edit Profile Picture Button */}
-                        <button className="absolute right-0 bottom-0 left-0 bg-black/50 py-1 text-xs text-white backdrop-blur-sm">Edit</button>
+                    <div className="sm-top-16 absolute -top-12 left-4 sm:left-6">
+                        {/* Profile Image Container */}
+                        <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-red-400 sm:h-32 sm:w-32 dark:ring-gray-800">
+                            <img
+                                src={
+                                    selectedProfileImage ||
+                                    (user.profile?.profile_image
+                                        ? `/storage/${user.profile.profile_image}`
+                                        : '/storage/profileImages/default-background.png')
+                                }
+                                alt="User profile"
+                                className="h-full w-full bg-white object-cover"
+                            />
+
+                            {/* Cancel Button Inside Circle */}
+                            {isProfileOwner && selectedProfileImage && (
+                                <button
+                                    onClick={handleCancelProfile}
+                                    className="absolute top-0 right-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
+                                >
+                                    Cancel
+                                </button>
+                            )}
+                            {isProfileOwner && selectedProfileImage && (
+                                <button
+                                    onClick={handleSaveProfile}
+                                    className="absolute right-0 bottom-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
+                                >
+                                    Save
+                                </button>
+                            )}
+
+                            {/* File input */}
+                            {isProfileOwner && (
+                                <input
+                                    type="file"
+                                    name="profile_image"
+                                    id="profile_image"
+                                    ref={profileInputRef}
+                                    onChange={handleProfileFileChange}
+                                    className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 transform rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm"
+                                    accept="image/*"
+                                />
+                            )}
+                        </div>
+
+                        {/* Camera Icon – half in, half out */}
+                        {isProfileOwner && (
+                            <button
+                                style={{ zIndex: 100 }}
+                                className="absolute -right-3 bottom-17 translate-y-3 transform cursor-pointer rounded-full bg-blue-700 p-1 text-white shadow-md transition-colors duration-200 hover:bg-blue-400"
+                                onClick={handleProfileImageClick}
+                            >
+                                <Camera size={16} strokeWidth={1.75} />
+                            </button>
+                        )}
                     </div>
 
                     {/* Profile Info */}

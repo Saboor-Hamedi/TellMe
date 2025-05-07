@@ -50,8 +50,8 @@ export default function Index() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
-            <div className="mx-auto w-full max-w-4xl  p-2 mt-2">
-                <div className="grid w-full gap-4 px-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+            <div className="mx-auto mt-2 w-full max-w-4xl p-2">
+                <div className="grid w-full gap-4 px-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {posts.data.length === 0 ? (
                         <p>No Posts</p>
                     ) : (
@@ -84,11 +84,21 @@ export default function Index() {
                                 </div>
 
                                 {/* Body - Title & Content */}
-                                <div className="flex flex-grow flex-col gap-2 p-4">
-                                    <Link href={show.url(post.id)}>
-                                        <h1 className="text-lg font-semibold text-gray-800">{post.title}</h1>
-                                    </Link>
-                                    <p className="text-gray-600">{LimitString(post.content, 40, '...')}</p>
+                                <div className="flex flex-grow flex-col gap-2">
+                                    <div className="p-2 bg-red-300 max-w-full">
+                                        <img
+                                            src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                                            className="object-fill"
+                                        />
+                                    </div>
+                                    {/* image */}
+
+                                    <div className="p-4">
+                                        <Link href={show.url(post.id)}>
+                                            <h1 className="text-lg font-semibold text-gray-800">{post.title}</h1>
+                                        </Link>
+                                        <p className="text-gray-600">{LimitString(post.content, 40, '...')}</p>
+                                    </div>
                                 </div>
 
                                 {/* card footer */}

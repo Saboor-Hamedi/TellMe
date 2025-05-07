@@ -2,6 +2,8 @@ import { router, usePage } from '@inertiajs/react';
 import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Post, User } from '../helper/types';
+import { Button } from '@mui/material';
+import { Camera, X } from 'lucide-react';
 export default function CoverImage() {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -21,6 +23,13 @@ export default function CoverImage() {
         if (file) {
             setSelectedImage(URL.createObjectURL(file)); // preview file
             setFileToUpload(file); // store for uploading later
+        }
+    };
+    const handleCancel = () => {
+        setSelectedImage(null);
+        setFileToUpload(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
         }
     };
     const handleSaveBackground = async () => {
@@ -59,8 +68,9 @@ export default function CoverImage() {
         } finally {
             setIsSaving(false);
             setFileToUpload(null);
-            // setSelectedImage(null);
+            
         }
+        
     };
     // end upload background image
     return (
@@ -91,26 +101,32 @@ export default function CoverImage() {
                         {!fileToUpload && (
                             <button
                                 onClick={handleImageClick}
-                                className="cursor-pointer absolute top-2 right-4 rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm"
+                                className="text-indigo-600shadow absolute top-2 right-4 flex cursor-pointer items-center gap-2 rounded-md bg-white/90 px-3 py-1 text-[11px] font-medium transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                             >
-                                Change Cover
+                                <Camera size={16} strokeWidth={1.5} /> Change Cover
                             </button>
                         )}
 
                         {/* Top right "Save Background" button */}
                         {fileToUpload && (
-                            <div className="absolute top-0 flex w-full justify-end gap-2  p-2">
+                            <div className="absolute top-0 flex w-full justify-end gap-2 p-2">
                                 <button
-                                    onClick={handleImageClick }
-                                    className="cursor-pointer rounded-md bg-white/90 px-2.5 py-1 text-[11px] font-medium text-indigo-600 shadow backdrop-blur-sm transition-all hover:bg-white"
+                                    onClick={handleCancel}
+                                    className="text-indigo-600shadow flex cursor-pointer items-center gap-2 rounded-md bg-white/90 px-3 py-1 text-[11px] font-medium transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                                 >
-                                    Change Cover
+                                    <X size={16} strokeWidth={1.75} /> Cancel
                                 </button>
-                                
+                                <button
+                                    onClick={handleImageClick}
+                                    className="text-indigo-600shadow flex cursor-pointer items-center gap-2 rounded-md bg-white/90 px-3 py-1 text-[11px] font-medium transition-all hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    <Camera size={16} strokeWidth={1.5} /> Change Cover
+                                </button>
+
                                 <button
                                     onClick={handleSaveBackground}
                                     disabled={isSaving}
-                                    className="cursor-pointer rounded-md bg-blue-600 px-2.5 py-1 text-[11px] font-medium text-white shadow transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="text-indigo-600shadow flex cursor-pointer items-center gap-2 rounded-md bg-blue-600 px-3 py-1 text-[11px] font-medium transition-all hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     {isSaving ? 'Saving...' : 'Save Cover'}
                                 </button>

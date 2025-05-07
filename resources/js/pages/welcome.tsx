@@ -50,7 +50,7 @@ export default function Welcome() {
 
                                     <div className="flex-1">
                                         <Link href={route('profile', post.user?.name)}>
-                                            <span className="mt-3 flex flex-col text-sm font-semibold">
+                                            <span className="mt-3 flex flex-col text-sm">
                                                 {ToUpper(post.author)} {post.lastname}
                                                 <small className="text-xs text-indigo-400">
                                                     {new Date(post.created_at).toLocaleDateString('en-US', {

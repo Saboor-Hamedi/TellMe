@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\profile;
-
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\PreviousURL;
+use App\Services\ValidateService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +13,11 @@ use Inertia\Inertia;
 class ProfileController extends Controller
 {
     use AuthorizesRequests;
-
+    protected $validateService;
+    public function __construct(ValidateService $validateService)
+    {
+        $this->validateService = $validateService;
+    }
     public function profile(User $user)
     {
 
@@ -33,16 +37,11 @@ class ProfileController extends Controller
             'backUrl' => $backUrl, ]);
     }
 
-    public function uploadBGImage(Request $request)
+    public function uploadBGImage( User $user,Request $request)
     {
-        $request->validate([
-            'background' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $user = auth()->user();
-        if (! $user) {
-            return redirect()->back()->with(['error' => 'Unauthorized: You must be logged in.'], 401);
-        }
+        $this->validateService->validateImage($request, 'background');
+      
+        $user = $user->isAuthorized();
         try {
             if ($request->hasFile('background')) {
                 $file = $request->file('background');
@@ -51,12 +50,10 @@ class ProfileController extends Controller
                 if ($user->profile && $user->profile->cover_image) {
                     Storage::disk('public')->delete($user->profile->cover_image);
                 }
-
                 $user->profile()->updateOrCreate(
                     ['user_id' => $user->id],
                     ['cover_image' => $path]
                 );
-
                 // Reload the user with the updated profile
                 $updatedUser = User::query()
                     ->with(['profile', 'posts' => function ($query) {
@@ -66,11 +63,7 @@ class ProfileController extends Controller
                     }])
                     ->where('id', $user->id)
                     ->first();
-
-                return Inertia::render('profile/Profile', [
-                    'user' => $updatedUser,
-                    'success' => 'Background updated successfully',
-                ]);
+               
             }
 
             return redirect()->back()->with('error', 'No file uploaded');
@@ -80,14 +73,9 @@ class ProfileController extends Controller
     }
     public function uploadProfilePicture(User $user, Request $request)
     {
-        $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $user = auth()->user();
-        if (! $user) {
-            return redirect()->back()->with(['error' => 'Unauthorized: You must be logged in.'], 401);
-        }
+        $this->validateService->validateImage($request, 'profile_image');
+        $user = $user->isAuthorized();
+        
         try {
             if ($request->hasFile('profile_image')) {
                 $file = $request->file('profile_image');
@@ -102,7 +90,6 @@ class ProfileController extends Controller
                     ['profile_image' => $path]
                 );
 
-                // Reload the user with the updated profile
                 $updatedUser = User::query()
                     ->with(['profile', 'posts' => function ($query) {
                         $query->select('id', 'user_id', 'title', 'content', 'image', 'is_public', 'created_at')
@@ -111,13 +98,6 @@ class ProfileController extends Controller
                     }])
                     ->where('id', $user->id)
                     ->first();
-
-            //     return Inertia::render('profile/Profile', [
-            //     'user' => $updatedUser,
-            //     'success' => 'Profile picture updated successfully',
-            // ]);
-            // return Inertia::location(route('profile/{user:name}', $user->id));
-
             }
 
             return redirect()->back()->with('error', 'No file uploaded');

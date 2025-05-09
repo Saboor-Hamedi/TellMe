@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:17
+ * @see app\Http\Controllers\profile\ProfileController.php:21
  * @route /profile/{user}
  */
 export const profile = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ profile.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:17
+ * @see app\Http\Controllers\profile\ProfileController.php:21
  * @route /profile/{user}
  */
 profile.url = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ profile.url = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:17
+ * @see app\Http\Controllers\profile\ProfileController.php:21
  * @route /profile/{user}
  */
 profile.get = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ profile.get = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:17
+ * @see app\Http\Controllers\profile\ProfileController.php:21
  * @route /profile/{user}
  */
 profile.head = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -78,7 +78,7 @@ profile.head = (args: { user: string | { name: string } } | [user: string | { na
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @see app\Http\Controllers\profile\ProfileController.php:40
  * @route /profile/uploadBGImage
  */
 export const uploadBGImage = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -96,7 +96,7 @@ uploadBGImage.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @see app\Http\Controllers\profile\ProfileController.php:40
  * @route /profile/uploadBGImage
  */
 uploadBGImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -105,7 +105,7 @@ uploadBGImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:36
+ * @see app\Http\Controllers\profile\ProfileController.php:40
  * @route /profile/uploadBGImage
  */
 uploadBGImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -119,7 +119,7 @@ uploadBGImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams 
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @see app\Http\Controllers\profile\ProfileController.php:74
  * @route /profile/uploadProfilePicture
  */
 export const uploadProfilePicture = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -137,7 +137,7 @@ uploadProfilePicture.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @see app\Http\Controllers\profile\ProfileController.php:74
  * @route /profile/uploadProfilePicture
  */
 uploadProfilePicture.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -146,7 +146,7 @@ uploadProfilePicture.url = (options?: { query?: QueryParams, mergeQuery?: QueryP
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:81
+ * @see app\Http\Controllers\profile\ProfileController.php:74
  * @route /profile/uploadProfilePicture
  */
 uploadProfilePicture.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

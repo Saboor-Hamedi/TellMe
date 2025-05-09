@@ -19,6 +19,11 @@ class ValidateService
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_public' => 'sometimes|boolean',
         ]);
-
     }
+    public function validateImage(Request $request, $imageName){
+        return $request->validate([
+            $imageName => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+    }
+
 }

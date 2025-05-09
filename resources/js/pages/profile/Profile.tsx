@@ -2,7 +2,7 @@ import { show } from '@/actions/App/Http/Controllers/Post/FrontController';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { Camera, InstagramIcon, LinkedinIcon, TwitterIcon } from 'lucide-react';
+import { Camera, Eye, InstagramIcon, LinkedinIcon, Plus, TwitterIcon } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { toast, Toaster } from 'sonner';
 import Header from '../Header';
@@ -42,27 +42,25 @@ export default function Profile() {
         if (profileFileToUpload) {
             const formData = new FormData();
             formData.append('profile_image', profileFileToUpload);
-                 await router.post('/profile/uploadProfilePicture', formData, {
-                     onSuccess: () => {
-                         toast.success('Background image updated successfully!', {
-                             duration: 2000,
-                             position: 'top-right',
-                         });
-                         setSelectedProfileImage(null);
-                         setProfileFileToUpload(null);
-                         if (profileInputRef.current) {
-                             profileInputRef.current.value = '';
-                         }
-                     },
-                     onError: (errors) => {
-                         toast.error('Failed to update background image. Please try again.', {
-                             duration: 2000,
-                             position: 'top-right',
-                         });
-                     },
-
-                 });
-           
+            await router.post('/profile/uploadProfilePicture', formData, {
+                onSuccess: () => {
+                    toast.success('Background image updated successfully!', {
+                        duration: 2000,
+                        position: 'top-right',
+                    });
+                    setSelectedProfileImage(null);
+                    setProfileFileToUpload(null);
+                    if (profileInputRef.current) {
+                        profileInputRef.current.value = '';
+                    }
+                },
+                onError: (errors) => {
+                    toast.error('Failed to update background image. Please try again.', {
+                        duration: 2000,
+                        position: 'top-right',
+                    });
+                },
+            });
         } else {
             console.log('Please select an image.');
         }
@@ -103,16 +101,15 @@ export default function Profile() {
             <Head title="Profile" />
             <Header />
             <Toaster position="top-right" />
-            {/* Profile Card */}
+
+            {/* Profile Card - Keeping your exact structure */}
             <div className="mx-auto mt-2 max-w-4xl overflow-hidden shadow-xs">
                 <div className="flex items-center justify-between border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">{BackHome()}</div>
-                {/* Background Image */}
                 <CoverImage />
-                {/* Profile Content */}
+
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">
-                    {/* Profile Image */}
+                    {/* Profile Image Section - Unchanged */}
                     <div className="sm-top-16 absolute -top-12 left-4 sm:left-6">
-                        {/* Profile Image Container */}
                         <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-red-400 sm:h-32 sm:w-32 dark:ring-gray-800">
                             <img
                                 src={
@@ -124,26 +121,22 @@ export default function Profile() {
                                 alt="User profile"
                                 className="h-full w-full bg-white object-cover"
                             />
-
-                            {/* Cancel Button Inside Circle */}
                             {isProfileOwner && selectedProfileImage && (
-                                <button
-                                    onClick={handleCancelProfile}
-                                    className="absolute top-0 right-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
-                                >
-                                    Cancel
-                                </button>
+                                <>
+                                    <button
+                                        onClick={handleCancelProfile}
+                                        className="absolute top-0 right-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handleSaveProfile}
+                                        className="absolute right-0 bottom-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
+                                    >
+                                        Save
+                                    </button>
+                                </>
                             )}
-                            {isProfileOwner && selectedProfileImage && (
-                                <button
-                                    onClick={handleSaveProfile}
-                                    className="absolute right-0 bottom-0 left-0 cursor-pointer bg-black/50 py-1 text-xs text-white backdrop-blur-sm"
-                                >
-                                    Save
-                                </button>
-                            )}
-
-                            {/* File input */}
                             {isProfileOwner && (
                                 <input
                                     type="file"
@@ -156,8 +149,6 @@ export default function Profile() {
                                 />
                             )}
                         </div>
-
-                        {/* Camera Icon – half in, half out */}
                         {isProfileOwner && (
                             <button
                                 style={{ zIndex: 100 }}
@@ -169,14 +160,13 @@ export default function Profile() {
                         )}
                     </div>
 
-                    {/* Profile Info */}
+                    {/* Profile Info - Unchanged */}
                     <div className="pt-16 sm:pt-20 md:pl-40">
                         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between">
                             <div>
                                 <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-white">
                                     {ToUpper(user.name) || 'no name'} {user.profile ? ToUpper(user.profile.lastname) : ''}
                                 </h1>
-
                                 <p className="text-sm text-indigo-600 sm:text-base dark:text-indigo-400">Storyteller & Content Creator</p>
                             </div>
                             <div className="mt-3 flex gap-2 sm:mt-0">
@@ -188,8 +178,6 @@ export default function Profile() {
                                 </button>
                             </div>
                         </div>
-
-                        {/* Stats */}
                         <div className="mt-4 grid grid-cols-3 gap-4 text-center sm:mt-6 sm:flex sm:flex-wrap sm:gap-6">
                             <div className="rounded-lg bg-white/50 p-2 sm:bg-transparent sm:p-0 dark:bg-gray-700/50 sm:dark:bg-transparent">
                                 <p className="text-[14px] font-semibold text-gray-900 md:text-[16px] lg:text-[18px] dark:text-white">142</p>
@@ -204,13 +192,9 @@ export default function Profile() {
                                 <p className="text-[10px] text-gray-600 md:text-[12px] lg:text-[14px] dark:text-gray-400">Following</p>
                             </div>
                         </div>
-
-                        {/* Bio */}
                         <p className="mt-4 text-sm text-gray-700 sm:mt-6 sm:text-base dark:text-gray-300">
                             Sharing stories that inspire and connect people. Passionate about technology, travel, and human experiences.
                         </p>
-
-                        {/* Social Links (mobile only) */}
                         <div className="mt-4 flex gap-3 sm:hidden">
                             <a href="#" className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400">
                                 <TwitterIcon className="h-5 w-5" />
@@ -225,51 +209,74 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
-            {/* post */}
+
+            {/* Posts Section - Enhanced Cards */}
             {user.posts?.length > 0 ? (
-                <div className="mx-auto mt-2 grid max-w-4xl gap-3 overflow-hidden bg-white p-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                <div className="mx-auto mt-4 grid max-w-4xl gap-4 p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     {user.posts.map((post) => (
                         <div
                             key={post.id}
-                            className="group relative flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm transition-all duration-300 hover:shadow-xs"
+                            className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                         >
-                            {/* Card Header */}
-                            <div className="flex items-center gap-4 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
+                            {/* Card Header - Improved spacing */}
+                            <div className="flex items-center gap-3 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-3">
                                 <div className="h-10 w-10 overflow-hidden rounded-full bg-white ring-2 ring-indigo-200">
                                     <img
-                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                                        src={
+                                            user.profile?.profile_image
+                                                ? `/storage/${user.profile?.profile_image}`
+                                                : '/storage/default/default-profile.png'
+                                        }
                                         alt="Profile Image"
                                         className="h-full w-full object-cover"
                                         onError={(e) => {
-                                            const target = e.currentTarget;
-                                            target.src = './storage/default/postImages/default-post.png';
+                                            e.currentTarget.src = '/storage/default/default-profile.png';
                                         }}
                                     />
                                 </div>
-                                <div>
-                                    <span className="mt-3 flex flex-col text-sm font-semibold">
-                                        <Link href={show.url(post.id)}>{ToUpper(user.name) || 'no name'}</Link>
-                                        <small className="text-xs text-indigo-400 dark:text-indigo-300">
-                                            {new Date(post.created_at).toLocaleDateString('en-US', {
-                                                month: 'short',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                            })}
-                                        </small>
-                                    </span>
+                                <div className="min-w-0 flex-1">
+                                    {/* <Link href={show.url(post.id)} className="truncate text-sm font-semibold hover:text-indigo-600">
+                                            {ToUpper(user.name) || 'no name'}
+                                        </Link> */}
+                                    <div className="min-w-0 flex-1">
+                                        <Link href={route('profile', post.user?.name)} className="hover:text-indigo-600 hover:underline">
+                                            <div className="flex flex-col">
+                                                <span className="truncate text-sm font-medium text-gray-800">
+                                                    {ToUpper(post.author)} {post.lastname}
+                                                </span>
+                                                <small className="text-xs text-indigo-500">
+                                                    {new Date(post.created_at).toLocaleDateString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        year: 'numeric',
+                                                    })}
+                                                </small>
+                                            </div>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
+                            {/* card image - improved styling */}
 
-                            {/* Card Body */}
+                            <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+                                <img
+                                    src={post.image ? `/postImages/${post.image}` : '/storage/default/default-post.png'}
+                                    alt={post.title}
+                                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).src = '/storage/default/default-post.png';
+                                    }}
+                                />
+                            </div>
+                            {/* Card Body - Enhanced layout */}
                             <div className="flex-grow bg-white p-4 dark:bg-gray-900">
-                                <h3 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
+                                <h3 className="mb-2 line-clamp-2 text-lg font-bold text-gray-900 dark:text-white">
                                     {ToUpper(post.title) || 'No Title'}
                                 </h3>
-
-                                <p className="my-3 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
-                                    {post.content.length > 80 ? post.content.slice(0, 80) + '...' : post.content}
+                                <p className="mb-3 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
+                                    {post.content.length > 100 ? post.content.slice(0, 100) + '...' : post.content}
                                 </p>
-                                <div className="mt-2 flex flex-wrap gap-2">
+                                <div className="flex flex-wrap gap-2">
                                     <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700 dark:bg-indigo-700 dark:text-white">
                                         Technology
                                     </span>
@@ -279,47 +286,30 @@ export default function Profile() {
                                 </div>
                             </div>
 
-                            {/* Card Footer */}
+                            {/* Card Footer - Improved button */}
                             <div className="border-t border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
-                                <a
+                                <Link
                                     href={show.url(post.id)}
-                                    className="flex w-full items-center justify-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700 hover:shadow-md"
+                                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                                        />
-                                    </svg>
+                                    <Eye size={16} />
                                     Read Full Story
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     ))}
                 </div>
             ) : (
-                <div className="mx-auto mt-5 mb-5 max-w-4xl overflow-hidden rounded-md bg-gradient-to-br from-indigo-50 to-purple-50 p-3 shadow-md dark:from-gray-900 dark:to-gray-800">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-12 w-12 text-indigo-400 dark:text-indigo-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.75v14.5m7.25-7.25H4.75" />
-                    </svg>
-                    <h2 className="mt-4 text-xl font-bold text-indigo-600 dark:text-indigo-400">No Posts Yet</h2>
-                    <p className="mt-2 max-w-sm text-sm text-gray-600 dark:text-gray-400">
-                        Looks like <span className="font-semibold">{user.name}</span> hasn’t posted anything yet. Stay tuned for updates!
+                <div className="mx-auto mt-6 max-w-md rounded-xl bg-gradient-to-br from-indigo-50 to-purple-50 p-6 text-center dark:from-gray-800 dark:to-gray-700">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-600 dark:bg-gray-700 dark:text-indigo-400">
+                        <Plus size={24} />
+                    </div>
+                    <h3 className="mt-4 text-lg font-medium text-indigo-700 dark:text-indigo-400">No Posts Yet</h3>
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Looks like <span className="font-semibold">{user.name}</span> hasn't posted anything yet.
                     </p>
                 </div>
             )}
-
-            {/* end */}
         </>
     );
 }

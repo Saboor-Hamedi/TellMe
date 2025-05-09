@@ -1,5 +1,6 @@
 'use client';
 import { edit, show } from '@/actions/App/Http/Controllers/PostController';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
@@ -7,9 +8,8 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { LimitString } from '../helper/LimitString';
 import { Post } from '../helper/types';
-import { Button } from '@/components/ui/button';
 
-import { BookMinus, Pencil } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -50,30 +50,52 @@ export default function Index() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
-            <div className="mx-auto mt-2 w-full max-w-4xl p-2">
-                <div className="grid w-full gap-4 px-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mx-auto mt-4 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {posts.data.length === 0 ? (
-                        <p>No Posts</p>
+                        <div className="col-span-full py-12 text-center">
+                            <div className="mx-auto max-w-md">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="mx-auto h-12 w-12 text-gray-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={1.5}
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <h3 className="mt-2 text-lg font-medium text-gray-900">No posts found</h3>
+                                <p className="mt-1 text-gray-500">Create your first post to get started</p>
+                            </div>
+                        </div>
                     ) : (
                         posts.data.map((post) => (
                             <div
                                 key={post.id}
-                                className="group relative flex h-full flex-col overflow-hidden rounded-md bg-white shadow-sm transition-all duration-300 hover:shadow-xs"
+                                className="group relative flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
                             >
                                 {/* Top Bar - Author + Date */}
-                                <div className="flex items-center justify-start gap-2 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">
+                                <div className="flex items-center justify-start gap-2 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-3">
                                     <img
                                         src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
                                         alt={post.user?.name || 'User'}
-                                        className="inline-block size-6 rounded-full ring-2 ring-white"
+                                        className="inline-block size-8 rounded-full object-cover ring-2 ring-white"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = '/storage/default/default-profile.png';
+                                        }}
                                     />
-                                    <div className="flex w-full justify-between text-sm text-gray-700">
-                                        <span className="capitalize">
-                                            <Link href={show.url(post.id)}>
+                                    <div className="flex w-full items-center justify-between">
+                                        <span className="text-sm font-medium text-gray-700">
+                                            <Link href={show.url(post.id)} className="hover:text-indigo-600 hover:underline">
                                                 {post.author} {post.lastname}
                                             </Link>
                                         </span>
-                                        <span>
+                                        <span className="text-xs text-gray-500">
                                             {new Date(post.created_at).toLocaleDateString('en-US', {
                                                 month: 'short',
                                                 day: 'numeric',
@@ -83,45 +105,51 @@ export default function Index() {
                                     </div>
                                 </div>
 
-                                {/* Body - Title & Content */}
-                                <div className="flex flex-grow flex-col gap-2">
-                                    <div className="p-2 bg-red-300 max-w-full">
-                                        <img
-                                            src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
-                                            className="object-fill"
-                                        />
-                                    </div>
-                                    {/* image */}
-
-                                    <div className="p-4">
-                                        <Link href={show.url(post.id)}>
-                                            <h1 className="text-lg font-semibold text-gray-800">{post.title}</h1>
-                                        </Link>
-                                        <p className="text-gray-600">{LimitString(post.content, 40, '...')}</p>
-                                    </div>
+                                {/* Body - Image */}
+                                <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+                                    <img
+                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-post.png'}
+                                        alt={post.title}
+                                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src = '/storage/default/default-post.png';
+                                        }}
+                                    />
                                 </div>
 
-                                {/* card footer */}
+                                {/* Body - Content */}
+                                <div className="flex flex-grow flex-col p-4">
+                                    <Link href={show.url(post.id)}>
+                                        <h2 className="mb-2 line-clamp-2 text-lg font-semibold text-gray-800 hover:text-indigo-600">{post.title}</h2>
+                                    </Link>
+                                    <p className="line-clamp-3 text-sm text-gray-600">{LimitString(post.content, 100, '...')}</p>
+                                </div>
 
-                                <div className="flex items-center justify-end gap-2 border-t p-3">
-                                    <Button asChild size="sm">
-                                        <Link href={edit.url(post.id)}>
-                                            <Pencil
-                                                size={16}
-                                                strokeWidth={0.9}
-                                                className="text-white transition-colors duration-200 hover:bg-gray-800"
-                                            />{' '}
-                                            Edit
+                                {/* Footer - Actions */}
+                                <div className="mt-auto flex items-center justify-between border-t border-gray-100 p-3">
+                                    <Button asChild size="sm" variant="outline" className="group-hover:bg-gray-50">
+                                        <Link href={show.url(post.id)} className="flex items-center gap-1">
+                                            <Eye size={16} strokeWidth={1.5} className="text-gray-600" />
+                                            <span>View</span>
                                         </Link>
                                     </Button>
-                                    <Button
-                                        onClick={() => deletePost(post.id)}
-                                        variant="destructive"
-                                        size="sm"
-                                        className="cursor-pointer transition-colors duration-200 hover:bg-red-800"
-                                    >
-                                        <BookMinus size={16} strokeWidth={0.9} className="text-white" /> Delete
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button asChild size="sm" className="bg-indigo-600 hover:bg-indigo-700">
+                                            <Link href={edit.url(post.id)} className="flex items-center gap-1">
+                                                <Pencil size={16} strokeWidth={1.5} className="text-white" />
+                                                <span>Edit</span>
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            onClick={() => deletePost(post.id)}
+                                            variant="destructive"
+                                            size="sm"
+                                            className="flex items-center gap-1 hover:bg-red-700"
+                                        >
+                                            <Trash2 size={16} strokeWidth={1.5} className="text-white" />
+                                            <span>Delete</span>
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         ))

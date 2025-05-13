@@ -49,11 +49,13 @@ class PostController extends Controller
         $validateData = $this->validateService->postValidation($request);
         $validateData['user_id'] = Auth::user()->id;
         $validateData['is_public'] = $request->boolean('is_public');
+
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('postImages'), $imageName);
-            $validateData['image'] = $imageName;
+            // $image = $request->file('image');
+            // $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+            // $image->move(public_path('postImages'), $imageName);
+            $path = $request->file('image')->store('postImages', 'public');
+            $validateData['image'] = $path;
         }
         $post = Post::create($validateData);
         if ($post) {
@@ -87,16 +89,18 @@ class PostController extends Controller
         $validateData = $this->validateService->postValidation($request);
         $validateData['user_id'] = Auth::user()->id;
         $validateData['is_public'] = $request->boolean('is_public');
+
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('postImages'), $imageName);
-            $this->imageDelete->deleteImageIfExists($post->image, 'postImages');
-            $validateData['image'] = $imageName;
+            $path = $request->file('image')->store('postImages', 'public');
+            $validateData['image'] = $path;
+            // Delete the old image if it exists
+            if($post->image) {
+                $this->imageDelete->deleteImageIfExists($post->image);
+            }
         } else {
+             // Keep existing image if no new one was uploaded
             $validateData['image'] = $post->image;
         }
-        // dd($post);
         $post->update($validateData);
 
         return redirect()->route('post.index')->with('success', 'Post updated successfully!');

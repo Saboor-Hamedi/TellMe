@@ -7,8 +7,8 @@ import React, { useRef, useState } from 'react';
 import { toast, Toaster } from 'sonner';
 import Header from '../Header';
 import { ToUpper } from '../helper/Case';
-import { Post, User } from '../helper/types';
-import CoverImage from './CoverImage';
+import { PageProps, Post, User } from '../helper/types';
+import BackgroundImage from './BackgroundImage';
 // end of menu
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,14 +18,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Profile() {
-    // const { user, auth } = usePage<{ user: User & { posts: Post[] } }>().props;
     const { user, auth } = usePage<{ user: User & { posts: Post[] }; auth: { user: User | null } }>().props;
     const isProfileOwner = auth?.user?.id === user.id;
+
     // Upload Profile
     const profileInputRef = useRef<HTMLInputElement>(null);
     const [selectedProfileImage, setSelectedProfileImage] = useState<string | null>(null);
     const [profileFileToUpload, setProfileFileToUpload] = useState<File | null>(null);
-
     const handleProfileImageClick = () => {
         if (profileInputRef.current) {
             profileInputRef.current.click();
@@ -42,23 +41,34 @@ export default function Profile() {
         if (profileFileToUpload) {
             const formData = new FormData();
             formData.append('profile_image', profileFileToUpload);
-            await router.post('/profile/uploadProfilePicture', formData, {
-                onSuccess: () => {
-                    toast.success('Background image updated successfully!', {
-                        duration: 2000,
-                        position: 'top-right',
-                    });
-                    setSelectedProfileImage(null);
-                    setProfileFileToUpload(null);
-                    if (profileInputRef.current) {
-                        profileInputRef.current.value = '';
+            router.post('/profile/profileImage', formData, {
+                onSuccess: (page) => {
+                    const flash = page.props.flash as PageProps['flash'];
+                    if (flash?.success) {
+                        toast.success(flash.success, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
                     }
+                    if (flash?.error) {
+                        toast.error(flash.error, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
+                    }
+                    resetForm();
                 },
                 onError: (errors) => {
-                    toast.error('Failed to update background image. Please try again.', {
-                        duration: 2000,
-                        position: 'top-right',
-                    });
+                    // Handle errors
+                    if (errors) {
+                        Object.values(errors).forEach((error) => {
+                            toast.error(error, {
+                                duration: 2000,
+                                position: 'top-right',
+                            });
+                        });
+                    }
+                    resetForm();
                 },
             });
         } else {
@@ -74,13 +84,17 @@ export default function Profile() {
             setProfileFileToUpload(file); // Store the file object into state
         } else {
             // if not found then set it to null
-            setSelectedProfileImage(null);
-            setProfileFileToUpload(null);
+            resetForm();
         }
     };
-
+    const resetForm = () => {
+        setSelectedProfileImage(null);
+        setProfileFileToUpload(null);
+        if (profileInputRef.current) {
+            profileInputRef.current.value = '';
+        }
+    };
     // end of upload
-
     const BackHome = () => {
         const { backUrl } = usePage().props;
 
@@ -105,7 +119,7 @@ export default function Profile() {
             {/* Profile Card - Keeping your exact structure */}
             <div className="mx-auto mt-2 max-w-4xl overflow-hidden shadow-xs">
                 <div className="flex items-center justify-between border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">{BackHome()}</div>
-                <CoverImage />
+                <BackgroundImage />
 
                 <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">
                     {/* Profile Image Section - Unchanged */}
@@ -260,7 +274,7 @@ export default function Profile() {
 
                             <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
                                 <img
-                                    src={post.image ? `/postImages/${post.image}` : '/storage/default/default-post.png'}
+                                    src={post.image ? `/storage/${post.image}` : '/storage/default/default-post.png'}
                                     alt={post.title}
                                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     onError={(e) => {

@@ -51,7 +51,7 @@ export default function Show() {
                     {/* Post Banner Image */}
                     <div className="overflow-hidden shadow-xs">
                         <img
-                            src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                            src={post.image ? `/storage/${post.image}` : '/storage/default/default-profile.png'}
                             alt={post.user?.name || 'User'}
                             className="h-48 w-full object-cover md:h-64"
                         />

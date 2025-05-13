@@ -79,7 +79,7 @@ export default function Welcome() {
                             {/* Post Image - Always shown with default fallback */}
                             <div className="relative h-48 w-full overflow-hidden bg-gray-100">
                                 <img
-                                    src={post.image ? `/postImages/${post.image}` : '/storage/default/default-post.png'}
+                                    src={post.image ? `/storage/${post.image}` : '/storage/default/default-post.png'}
                                     alt={post.title}
                                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     onError={(e) => {

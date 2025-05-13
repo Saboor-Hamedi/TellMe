@@ -47,7 +47,7 @@ export default function Edit({ post }: { post: Post }) {
                         {post.image && !data.image && (
                             <div className="mt-2">
                                 <p className="text-sm text-gray-500">Current Image:</p>
-                                <img src={`/postImages/${post.image}`} alt="Current post image" className="h-20 w-20 rounded object-cover" />
+                                <img src={`/storage/${post.image}`} alt="Current post image" className="h-20 w-20 rounded object-cover" />
                             </div>
                         )}
                         {/* Title Input */}

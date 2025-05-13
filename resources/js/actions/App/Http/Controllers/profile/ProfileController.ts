@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:21
+ * @see app\Http\Controllers\profile\ProfileController.php:25
  * @route /profile/{user}
  */
 export const profile = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ profile.definition = {
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:21
+ * @see app\Http\Controllers\profile\ProfileController.php:25
  * @route /profile/{user}
  */
 profile.url = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ profile.url = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:21
+ * @see app\Http\Controllers\profile\ProfileController.php:25
  * @route /profile/{user}
  */
 profile.get = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -64,7 +64,7 @@ profile.get = (args: { user: string | { name: string } } | [user: string | { nam
 
 /**
  * @see \App\Http\Controllers\profile\ProfileController::profile
- * @see app\Http\Controllers\profile\ProfileController.php:21
+ * @see app\Http\Controllers\profile\ProfileController.php:25
  * @route /profile/{user}
  */
 profile.head = (args: { user: string | { name: string } } | [user: string | { name: string }] | string | { name: string }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -77,87 +77,87 @@ profile.head = (args: { user: string | { name: string } } | [user: string | { na
 
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:40
- * @route /profile/uploadBGImage
+ * @see \App\Http\Controllers\profile\ProfileController::backgroundImage
+ * @see app\Http\Controllers\profile\ProfileController.php:34
+ * @route /profile/backgroundImage
  */
-export const uploadBGImage = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const backgroundImage = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: uploadBGImage.url(options),
+    url: backgroundImage.url(options),
     method: 'post',
 })
 
-uploadBGImage.definition = {
+backgroundImage.definition = {
     methods: ['post'],
-    url: '\/profile\/uploadBGImage',
+    url: '\/profile\/backgroundImage',
 }
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:40
- * @route /profile/uploadBGImage
+ * @see \App\Http\Controllers\profile\ProfileController::backgroundImage
+ * @see app\Http\Controllers\profile\ProfileController.php:34
+ * @route /profile/backgroundImage
  */
-uploadBGImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return uploadBGImage.definition.url + queryParams(options)
+backgroundImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return backgroundImage.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadBGImage
- * @see app\Http\Controllers\profile\ProfileController.php:40
- * @route /profile/uploadBGImage
+ * @see \App\Http\Controllers\profile\ProfileController::backgroundImage
+ * @see app\Http\Controllers\profile\ProfileController.php:34
+ * @route /profile/backgroundImage
  */
-uploadBGImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+backgroundImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: uploadBGImage.url(options),
+    url: backgroundImage.url(options),
     method: 'post',
 })
 
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:74
- * @route /profile/uploadProfilePicture
+ * @see \App\Http\Controllers\profile\ProfileController::profileImage
+ * @see app\Http\Controllers\profile\ProfileController.php:48
+ * @route /profile/profileImage
  */
-export const uploadProfilePicture = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+export const profileImage = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: uploadProfilePicture.url(options),
+    url: profileImage.url(options),
     method: 'post',
 })
 
-uploadProfilePicture.definition = {
+profileImage.definition = {
     methods: ['post'],
-    url: '\/profile\/uploadProfilePicture',
+    url: '\/profile\/profileImage',
 }
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:74
- * @route /profile/uploadProfilePicture
+ * @see \App\Http\Controllers\profile\ProfileController::profileImage
+ * @see app\Http\Controllers\profile\ProfileController.php:48
+ * @route /profile/profileImage
  */
-uploadProfilePicture.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
-    return uploadProfilePicture.definition.url + queryParams(options)
+profileImage.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return profileImage.definition.url + queryParams(options)
 }
 
 /**
- * @see \App\Http\Controllers\profile\ProfileController::uploadProfilePicture
- * @see app\Http\Controllers\profile\ProfileController.php:74
- * @route /profile/uploadProfilePicture
+ * @see \App\Http\Controllers\profile\ProfileController::profileImage
+ * @see app\Http\Controllers\profile\ProfileController.php:48
+ * @route /profile/profileImage
  */
-uploadProfilePicture.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+profileImage.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
     url: string,
     method: 'post',
 } => ({
-    url: uploadProfilePicture.url(options),
+    url: profileImage.url(options),
     method: 'post',
 })
 
 
-const ProfileController = { profile, uploadBGImage, uploadProfilePicture }
+const ProfileController = { profile, backgroundImage, profileImage }
 
 export default ProfileController

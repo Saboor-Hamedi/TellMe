@@ -1,20 +1,19 @@
 import { router, usePage } from '@inertiajs/react';
+import { Camera, X } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { Post, User } from '../helper/types';
-import { Camera, X } from 'lucide-react';
-export default function CoverImage() {
-    const fileInputRef = useRef<HTMLInputElement>(null);
+import { PageProps, Post, User } from '../helper/types';
+export default function backgroundImage() {
+    const backgroundInputRef = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [fileToUpload, setFileToUpload] = useState<File | null>(null);
     const [isSaving, setIsSaving] = useState(false);
-    const { user, auth } = usePage<{user: User & { posts: Post[] };
-    auth: { user: User | null };}>().props;
+    const { user, auth } = usePage<{ user: User & { posts: Post[] }; auth: { user: User | null } }>().props;
 
     const isProfileOwner = auth?.user?.id === user.id;
     const handleImageClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
+        if (backgroundInputRef.current) {
+            backgroundInputRef.current.click();
         }
     };
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,8 +26,8 @@ export default function CoverImage() {
     const handleCancel = () => {
         setSelectedImage(null);
         setFileToUpload(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+        if (backgroundInputRef.current) {
+            backgroundInputRef.current.value = '';
         }
     };
     const handleSaveBackground = async () => {
@@ -37,39 +36,56 @@ export default function CoverImage() {
         formData.append('background', fileToUpload);
         try {
             setIsSaving(true);
-            await router.post('/profile/uploadBGImage', formData, {
+            await router.post('/profile/backgroundImage', formData, {
                 forceFormData: true,
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => {
-                    toast.success('Background image updated successfully!', {
-                        duration: 2000,
-                        position: 'top-right',
-                    });
-                    setFileToUpload(null);
-                    setSelectedImage(null);
+                onSuccess: (page) => {
+                    const flash = page.props.flash as PageProps['flash'];
+                    if (flash?.success) {
+                        toast.success(flash.success, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
+                    }
+                    if (flash?.error) {
+                        toast.error(flash.error, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
+                    }
+                    resetForm();
+                    
                 },
                 onError: (errors) => {
-                    toast.error('Failed to update background image. Please try again.', {
-                        duration: 2000,
-                        position: 'top-right',
-                    });
+                    // Handle errors
+                    if (errors) {
+                        Object.values(errors).forEach((error) => {
+                            toast.error(error, {
+                                duration: 2000,
+                                position: 'top-right',
+                            });
+                        });
+                    }
+                    resetForm();
                 },
             });
-            // reset
-            setFileToUpload(null);
+           
         } catch (error) {
-            console.log(error);
             toast.error('An unexpected error occurred', {
                 duration: 2000,
                 position: 'top-right',
             });
         } finally {
             setIsSaving(false);
-            setFileToUpload(null);
-            
         }
-        
+    };
+    const resetForm = () => {
+        setSelectedImage(null);
+        setFileToUpload(null);
+        if (backgroundInputRef.current) {
+            backgroundInputRef.current.value = '';
+        }
     };
     // end upload background image
     return (
@@ -81,7 +97,7 @@ export default function CoverImage() {
                         (user.profile?.cover_image ? `/storage/${user.profile.cover_image}` : '/storage/profileImages/default-background.png')
                     }
                     alt="Profile background"
-                    onClick={handleImageClick}
+                    // onClick={handleImageClick}
                     className="h-full w-full object-cover opacity-90"
                 />
                 {isProfileOwner && (
@@ -90,7 +106,7 @@ export default function CoverImage() {
                             type="file"
                             name="background"
                             id="background"
-                            ref={fileInputRef}
+                            ref={backgroundInputRef}
                             onChange={handleFileChange}
                             className="absolute top-4 right-4 hidden rounded-md bg-white/90 px-3 py-1 text-xs font-medium text-indigo-600 backdrop-blur-sm hover:bg-white sm:text-sm"
                             accept="image/*"

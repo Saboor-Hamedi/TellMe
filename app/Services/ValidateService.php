@@ -20,10 +20,11 @@ class ValidateService
             'is_public' => 'sometimes|boolean',
         ]);
     }
-    public function validateImage(Request $request, $imageName){
+
+    public function validateImage(Request $request, $imageName)
+    {
         return $request->validate([
-            $imageName => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            $imageName => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     }
-
 }

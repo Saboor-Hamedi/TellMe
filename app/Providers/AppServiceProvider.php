@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,14 @@ class AppServiceProvider extends ServiceProvider
         Route::bind('user', function ($value) {
             return User::whereRaw('LOWER(name) = ?', [strtolower($value)])->firstOrFail();
         });
+        Inertia::share([
+            'flash' => function () {
+                return [
+                    'success' => session('success'),
+                    'error' => session('error'),
+                    'errors' => session('errors'),
+                ];
+            },
+        ]);
     }
 }

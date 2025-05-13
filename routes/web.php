@@ -24,8 +24,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // public profile
 Route::get('/profile/{user:name}', [ProfileController::class, 'profile'])->name('profile');
-Route::post('/profile/uploadBGImage', [ProfileController::class, 'uploadBGImage']);
-Route::post('/profile/uploadProfilePicture', [ProfileController::class, 'uploadProfilePicture']);
+Route::post('/profile/backgroundImage', [ProfileController::class, 'backgroundImage']);
+Route::post('/profile/profileImage', [ProfileController::class, 'profileImage']);
 
 // scraps
 Route::get('/scrape', [ScrapeController::class, 'index'])->name('scrape.index');

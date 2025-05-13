@@ -28,3 +28,12 @@ export interface Profile {
     cover_image: File | null;
     profile_image: File | null;
 }
+
+export interface PageProps {
+    flash?: {
+        success?: string;
+        error?: string;
+        errors?: Record<string, string[]>;
+    };
+    [key: string]: any;
+}

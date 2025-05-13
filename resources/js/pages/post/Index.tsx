@@ -51,7 +51,7 @@ export default function Index() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
             <div className="mx-auto mt-4 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div className="grid w-full gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                     {posts.data.length === 0 ? (
                         <div className="col-span-full py-12 text-center">
                             <div className="mx-auto max-w-md">
@@ -82,7 +82,11 @@ export default function Index() {
                                 {/* Top Bar - Author + Date */}
                                 <div className="flex items-center justify-start gap-2 border-b border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-3">
                                     <img
-                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                                        src={
+                                            post.user?.profile?.profile_image
+                                                ? `/storage/${post.user?.profile?.profile_image}`
+                                                : '/storage/default/default-profile.png'
+                                        }
                                         alt={post.user?.name || 'User'}
                                         className="inline-block size-8 rounded-full object-cover ring-2 ring-white"
                                         onError={(e) => {
@@ -108,7 +112,7 @@ export default function Index() {
                                 {/* Body - Image */}
                                 <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
                                     <img
-                                        src={post.image ? `/postImages/${post.image}` : '/storage/default/default-post.png'}
+                                        src={post.image ? `/storage/${post.image}` : '/storage/default/default-post.png'}
                                         alt={post.title}
                                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                                         onError={(e) => {
@@ -126,7 +130,7 @@ export default function Index() {
                                 </div>
 
                                 {/* Footer - Actions */}
-                                <div className="mt-auto flex items-center justify-between border-t border-gray-100 p-3">
+                                <div className="mx-auto flex items-center justify-between gap-2 border-t border-gray-100 p-3">
                                     <Button asChild size="sm" variant="outline" className="group-hover:bg-gray-50">
                                         <Link href={show.url(post.id)} className="flex items-center gap-1">
                                             <Eye size={16} strokeWidth={1.5} className="text-gray-600" />
@@ -144,7 +148,7 @@ export default function Index() {
                                             onClick={() => deletePost(post.id)}
                                             variant="destructive"
                                             size="sm"
-                                            className="flex items-center gap-1 hover:bg-red-700"
+                                            className="flex items-center gap-1 hover:bg-red-700 cursor-pointer"
                                         >
                                             <Trash2 size={16} strokeWidth={1.5} className="text-white" />
                                             <span>Delete</span>

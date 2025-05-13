@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\User;
 use App\Services\PreviousURL;
 use Inertia\Inertia;
 
@@ -18,6 +17,7 @@ class FrontController extends Controller
     public function index()
     {
         $posts = Post::with(['user.profile'])->latest()->get();
+
         // $posts = Post::latest()->get();
         return Inertia::render('welcome', [
             'posts' => [

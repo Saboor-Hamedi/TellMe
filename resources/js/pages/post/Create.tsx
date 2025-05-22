@@ -39,19 +39,17 @@ export default function Create() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Post" />
-            <div className="mx-auto mt-5 w-4/5">
+            <div className="mx-auto mt-2 mb-2 w-4/5 p-2">
                 <form onSubmit={StorePost} encType="multipart/form-data">
                     <div className="space-y-4">
                         {/* Title and Image Side-by-Side */}
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             {/* Title Input */}
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                                    Title
-                                </label>
                                 <Input
                                     id="title"
                                     name="title"
+                                    className="rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                     placeholder="Enter the post title"
                                     value={data.title}
                                     onChange={(e) => setData('title', e.target.value)}
@@ -61,15 +59,13 @@ export default function Create() {
 
                             {/* Image Input */}
                             <div>
-                                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                                    Image
-                                </label>
                                 <Input
                                     id="image"
                                     name="image"
                                     type="file"
                                     accept="image/*"
                                     placeholder="Upload an image"
+                                    className="rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                     onChange={(e) => {
                                         if (e.target.files && e.target.files[0]) {
                                             setData('image', e.target.files[0]);
@@ -82,21 +78,13 @@ export default function Create() {
 
                         {/* Generate through ai */}
 
-                        
-
-                        
-
                         {/* Content Textarea Full Width */}
                         <div>
-                            <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                                Content
-                            </label>
                             <Textarea
                                 id="content"
                                 name="content"
                                 placeholder="Write your post content here..."
-                                rows={5}
-                                className="max-h-[300px] min-h-[100px]"
+                                className="min-h-[200px] max-w-full overflow-y-auto rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                 value={data.content}
                                 onChange={(e) => setData('content', e.target.value)}
                             />

@@ -179,3 +179,12 @@
         @apply bg-background text-foreground;
     }
 }
+textarea:focus {
+  box-shadow: none !important;
+}
+input:focus {
+  box-shadow: none !important;
+}
+
+
+

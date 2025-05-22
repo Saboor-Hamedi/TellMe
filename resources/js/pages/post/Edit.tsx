@@ -53,13 +53,11 @@ export default function Edit({ post }: { post: Post }) {
                         {/* Title Input */}
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
-                                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                                    Title
-                                </label>
                                 <Input
                                     id="title"
                                     name="title"
                                     placeholder="Enter the post title"
+                                    className="rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                     value={data.title}
                                     onChange={(e) => setData('title', e.target.value)}
                                 />
@@ -67,14 +65,12 @@ export default function Edit({ post }: { post: Post }) {
                             </div>
                             {/* Image Input */}
                             <div>
-                                <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-                                    Image
-                                </label>
                                 <Input
                                     id="image"
                                     name="image"
                                     type="file"
                                     accept="image/*"
+                                    className="rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                     placeholder="Upload an image"
                                     onChange={(e) => {
                                         const file = e.target.files?.[0];
@@ -89,15 +85,13 @@ export default function Edit({ post }: { post: Post }) {
 
                         {/* Content Textarea */}
                         <div>
-                            <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                                Content
-                            </label>
+                            
                             <Textarea
                                 id="content"
                                 name="content"
                                 placeholder="Write your post content here..."
                                 rows={5}
-                                className="max-h-[300px] min-h-[100px]"
+                                className="min-h-[200px] max-w-full overflow-y-auto rounded-sm border-t border-r-0 border-b-0 border-l-0 border-indigo-400 bg-white p-2 text-gray-900 outline-none focus:border-t focus:border-r-0 focus:border-b-0 focus:border-l-0 focus:border-indigo-400 focus:ring-0 focus:outline-none"
                                 value={data.content}
                                 onChange={(e) => setData('content', e.target.value)}
                             />

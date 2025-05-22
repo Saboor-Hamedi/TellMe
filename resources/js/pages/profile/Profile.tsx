@@ -117,11 +117,11 @@ export default function Profile() {
             <Toaster position="top-right" />
 
             {/* Profile Card - Keeping your exact structure */}
-            <div className="mx-auto mt-2 max-w-4xl overflow-hidden shadow-xs">
-                <div className="flex items-center justify-between border-gray-100 bg-gradient-to-r from-indigo-50 to-purple-50 p-2">{BackHome()}</div>
+            <div className="mx-auto mt-2 max-w-4xl overflow-hidden ">
+                <div className="mb-2 flex items-center justify-between p-2">{BackHome()}</div>
                 <BackgroundImage />
 
-                <div className="relative px-4 pb-6 sm:px-6 sm:pb-8">
+                <div className="relative px-4 pb-6 sm:px-6 sm:pb-8  border-b-1 border-indigo-300">
                     {/* Profile Image Section - Unchanged */}
                     <div className="sm-top-16 absolute -top-12 left-4 sm:left-6">
                         <div className="relative h-24 w-24 overflow-hidden rounded-full ring-2 ring-red-400 sm:h-32 sm:w-32 dark:ring-gray-800">

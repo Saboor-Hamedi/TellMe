@@ -151,7 +151,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:126
+ * @see app\Http\Controllers\PostController.php:137
  * @route /post/{post}
  */
 export const destroy = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -169,7 +169,7 @@ destroy.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:126
+ * @see app\Http\Controllers\PostController.php:137
  * @route /post/{post}
  */
 destroy.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -200,7 +200,7 @@ destroy.url = (args: { post: number | { id: number } } | [post: number | { id: n
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:126
+ * @see app\Http\Controllers\PostController.php:137
  * @route /post/{post}
  */
 destroy.delete = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -490,6 +490,69 @@ postVisibility.patch = (args: { post: number | { id: number } } | [post: number 
 })
 
 
-const PostController = { index, create, store, destroy, show, edit, update, postVisibility }
+/**
+ * @see \App\Http\Controllers\PostController::isPrivate
+ * @see app\Http\Controllers\PostController.php:123
+ * @route /post/{post}/toggleVisibilities
+ */
+export const isPrivate = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'patch',
+} => ({
+    url: isPrivate.url(args, options),
+    method: 'patch',
+})
+
+isPrivate.definition = {
+    methods: ['patch'],
+    url: '\/post\/{post}\/toggleVisibilities',
+}
+
+/**
+ * @see \App\Http\Controllers\PostController::isPrivate
+ * @see app\Http\Controllers\PostController.php:123
+ * @route /post/{post}/toggleVisibilities
+ */
+isPrivate.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { post: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { post: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            post: args[0],
+        }
+    }
+
+    const parsedArgs = {
+        post: typeof args.post === 'object'
+            ? args.post.id
+            : args.post,
+    }
+
+    return isPrivate.definition.url
+            .replace('{post}', parsedArgs.post.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see \App\Http\Controllers\PostController::isPrivate
+ * @see app\Http\Controllers\PostController.php:123
+ * @route /post/{post}/toggleVisibilities
+ */
+isPrivate.patch = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'patch',
+} => ({
+    url: isPrivate.url(args, options),
+    method: 'patch',
+})
+
+
+const PostController = { index, create, store, destroy, show, edit, update, postVisibility, isPrivate }
 
 export default PostController

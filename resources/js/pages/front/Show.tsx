@@ -8,6 +8,7 @@ import PostVisibility from '../post/PostVisibility';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
 import { ToUpper } from '../helper/Case';
 import Button from '@mui/material/Button';
+import TogglePosts from '../dropdown/TogglePosts';
 
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
@@ -42,11 +43,12 @@ export default function Show() {
             <Header />
             <Head title={post.title} />
             <div className="mb-2 flex items-start justify-center">
-                <div className="mt-2 w-full max-w-4xl rounded-md ">
+                <div className="mt-2 w-full max-w-4xl rounded-md">
                     {/* Back Button and Post Controls */}
-                    <div className="mb-2 flex items-center justify-between p-2 ">
+                    <div className="mb-2 flex items-center justify-between p-2">
                         {BackHome()}
-                        <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
+                        {/* <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} /> */}
+                        <TogglePosts key={post.id} post={post} />
                     </div>
                     {/* Post Banner Image */}
                     <div className="mb-2 overflow-hidden border-b-2 border-indigo-100 shadow-xs">
@@ -58,8 +60,7 @@ export default function Show() {
                     </div>
                     {/* Comments Section */}
                     <div className="p-2">
-                        <h1 className="font-sans sm:text-[1.5rem] md:text-lg lg:text-3xl dark:text-white">
-                        {ToUpper(post.title) || 'No Title'}</h1>
+                        <h1 className="font-sans sm:text-[1.5rem] md:text-lg lg:text-3xl dark:text-white">{ToUpper(post.title) || 'No Title'}</h1>
                         <small className="text-xs text-indigo-400">
                             {new Date(post.created_at).toLocaleDateString('en-US', {
                                 month: 'short',

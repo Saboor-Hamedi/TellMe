@@ -20,6 +20,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::put('/post/{post}', [PostController::class, 'update'])->name('post.update');
     Route::patch('/post/{post}/visibility', [PostController::class, 'postVisibility'])->name('post.PostVisibility');
+
+
+
+    // private the posts 
+    Route::patch('/post/{post}/toggleVisibilities', [PostController::class, 'isPrivate']);
 });
 
 // public profile

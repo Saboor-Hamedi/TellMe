@@ -120,6 +120,17 @@ class PostController extends Controller
 
     }
 
+    public function isPrivate(Post $post)
+    {
+        $this->authorize('update', $post);
+        $post->load('user');
+        $post->update([
+            'is_public' => ! $post->is_public,
+        ]);
+        return back()->with('success', $post->is_public ? "Public" : "Private");
+
+    }
+
     /**
      * Remove the specified resource from storage.
      */

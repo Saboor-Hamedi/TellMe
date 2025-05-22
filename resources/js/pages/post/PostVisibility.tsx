@@ -46,7 +46,6 @@ export default function PostVisibility({ post, onVisibiltyChange }: { post: Post
             })
             .catch((error) => {
                 console.error('Failed to toggle visibility:', error);
-
                 // Revert the optimistic update on error
                 setIsPublic(post.is_public);
                 toast.error('Failed to update post visibility', { duration: 2000 });
@@ -54,7 +53,7 @@ export default function PostVisibility({ post, onVisibiltyChange }: { post: Post
     };
     return (
         <>
-            <div className="flex cursor-pointer items-center justify-end gap-2 rounded-lg transition-all duration-100 hover:bg-gray-200">
+            <div className="flex cursor-pointer items-center justify-end gap-2 rounded-lg transition-all duration-100 hover:bg-gray-200 mr-1">
                 {/* <small className="text-xs mr-1">{isPublic ? 'Public' : 'Private'}</small> */}
                 <DropdownMenu>
                     <DropdownMenuTrigger>

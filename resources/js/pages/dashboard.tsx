@@ -15,7 +15,7 @@ export default function Dashboard() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
                 <div>
-                <Chat />
+                     {/* <Chat /> */}
                 </div>
         </AppLayout>
     );

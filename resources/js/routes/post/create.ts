@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ create.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -29,7 +29,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -42,7 +42,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

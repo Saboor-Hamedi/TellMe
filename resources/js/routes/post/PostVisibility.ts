@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::PostVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 export const PostVisibility = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ PostVisibility.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::PostVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 PostVisibility.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ PostVisibility.url = (args: { post: number | { id: number } } | [post: number | 
 
 /**
  * @see \App\Http\Controllers\PostController::PostVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 PostVisibility.patch = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

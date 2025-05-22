@@ -1,0 +1,67 @@
+.dropdown-container {
+  position: relative;
+  display: inline-block; /* Or any other appropriate display */
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  /* Style your trigger element */
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position below the trigger */
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 150px; /* Adjust as needed */
+  padding: 10px 0;
+}
+
+.dropdown-knob {
+  position: absolute;
+  top: -10px; /* Adjust to control how far it extends */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white; /* Match dropdown background */
+}
+
+/* Style for individual dropdown items */
+.dropdown-menu > * { /* Selects all direct children */
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.dropdown-menu > *:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive adjustments (example for smaller screens) */
+@media (max-width: 600px) {
+  .dropdown-menu {
+    position: fixed; /* Or absolute with different positioning */
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdown-knob {
+    top: auto;
+    bottom: -10px;
+    border-top: 10px solid white;
+    border-bottom: none;
+  }
+}

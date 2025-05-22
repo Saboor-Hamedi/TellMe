@@ -8,6 +8,7 @@ use App\Services\ValidateService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -51,9 +52,6 @@ class PostController extends Controller
         $validateData['is_public'] = $request->boolean('is_public');
 
         if ($request->hasFile('image')) {
-            // $image = $request->file('image');
-            // $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
-            // $image->move(public_path('postImages'), $imageName);
             $path = $request->file('image')->store('postImages', 'public');
             $validateData['image'] = $path;
         }
@@ -125,12 +123,18 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
-    {
+public function destroy(Post $post)
+{
+    try {
         $this->authorize('delete', $post);
         $post->delete();
         $this->imageDelete->deleteImageIfExists($post->image, 'postImages');
-
-        return redirect()->route('post.index');
+        return back()->with('success', 'Post Deleted');
+    } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        return back()->with('error', 'You are not authorized to delete this post');
+    } catch (\Exception $e) {
+        Log::error('Post deletion failed', ['error' => $e->getMessage()]);
+        return back()->with('error', 'Failed to delete post');
     }
+}
 }

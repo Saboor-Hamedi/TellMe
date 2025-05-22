@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 export const update = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ update.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 update.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -51,7 +51,7 @@ update.url = (args: { post: number | { id: number } } | [post: number | { id: nu
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 update.put = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

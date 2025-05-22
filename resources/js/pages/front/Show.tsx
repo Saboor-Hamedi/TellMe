@@ -5,10 +5,10 @@ import { Toaster } from 'sonner';
 import Header from '../Header';
 import { Post } from '../helper/types';
 import PostVisibility from '../post/PostVisibility';
-import { Facebook, Twitter } from 'lucide-react';
 import {show} from '@/actions/App/Http/Controllers/Post/FrontController';
 import { ToUpper } from '../helper/Case';
-import { Button } from '@/components/ui/button';
+import Button from '@mui/material/Button';
+
 export default function Show() {
    const { post: initialPost } = usePage<{ post: Post }>().props;
    const [post, setPost] = useState(initialPost);
@@ -32,7 +32,7 @@ export default function Show() {
                prefetch
            >
                <KeyboardBackspaceIcon fontSize="small" />
-                Back to Home
+               Back to Home
            </Link>
        );
   };
@@ -41,26 +41,24 @@ export default function Show() {
             <Toaster position="top-right" />
             <Header />
             <Head title={post.title} />
-            <div className="flex items-start justify-center">
-                <div className="mt-2 w-full max-w-4xl rounded-md bg-white shadow-sm">
+            <div className="mb-2 flex items-start justify-center">
+                <div className="mt-2 w-full max-w-4xl rounded-md">
                     {/* Back Button and Post Controls */}
-                    <div className="flex items-center justify-between p-2">
+                    <div className="mb-2 flex items-center justify-between">
                         {BackHome()}
                         <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
                     </div>
                     {/* Post Banner Image */}
-                    <div className="overflow-hidden shadow-xs">
+                    <div className="mb-2 overflow-hidden border-b-2 border-indigo-100 shadow-xs">
                         <img
-                            src={post.image ? `/postImages/${post.image}` : '/storage/default/default-profile.png'}
+                            src={post.image ? `/storage/${post.image}` : '/storage/default/default-profile.png'}
                             alt={post.user?.name || 'User'}
                             className="h-48 w-full object-cover md:h-64"
                         />
                     </div>
                     {/* Comments Section */}
                     <div className="p-2">
-                        <h1 className="leading-tight font-bold text-gray-900 sm:text-4xl sm:text-[12px] md:text-[15px] lg:text-lg dark:text-white">
-                            {ToUpper(post.title) || 'No Title'}
-                        </h1>
+                        <h1 className="font-sans sm:text-[1.5rem] md:text-lg lg:text-3xl dark:text-white">{ToUpper(post.title) || 'No Title'}</h1>
                         <small className="text-xs text-indigo-400">
                             {new Date(post.created_at).toLocaleDateString('en-US', {
                                 month: 'short',
@@ -68,7 +66,7 @@ export default function Show() {
                                 year: 'numeric',
                             })}
                         </small>
-                        <article className="prose dark:prose-invert max-w-none pt-4 text-gray-600 dark:text-gray-300">{post.content}</article>
+                        {/* Tags */}
                         <div className="mt-4 flex flex-wrap gap-2">
                             {['Laravel', 'React', 'Inertia'].map((tag) => (
                                 <span
@@ -79,28 +77,46 @@ export default function Show() {
                                 </span>
                             ))}
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Comments</h3>
+
+                        {/* content */}
+                        <article className="prose dark:prose-invert mb-5 max-w-none py-4 text-gray-600 dark:text-gray-300">{post.content}</article>
+
+                        {/* Comments */}
 
                         {/* Comment Form */}
-                        <form className="flex flex-col gap-3">
+                        <form className="mb-2 flex flex-col gap-1 border-t-2 border-indigo-400">
                             <textarea
-                                className="rounded-lg border border-gray-200 p-4 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                                className="focus-ring-0 max-w-full border-none bg-white p-2 text-gray-900 outline-none"
                                 rows={4}
                                 placeholder="Share your thoughts..."
                             />
-                            <Button
-                                variant={'default'} className='mb-2'
-                            >
-                                Post Comment
-                            </Button>
+                            <div className="p-2">
+                                <Button variant="contained" className="ml-2">
+                                    Contained
+                                </Button>
+                            </div>
                         </form>
 
                         {/* Comments List */}
                         <div className="space-y-4">
                             <div className="rounded-xl bg-indigo-50 p-4 text-sm dark:bg-gray-700">
                                 <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-full bg-indigo-100"></div>
-                                    <span className="font-medium text-gray-900 dark:text-white">Jane Doe</span>
+                                    <div className="h-8 w-8 rounded-full bg-indigo-100">
+                                        <img
+                                            src={
+                                                post.user?.profile?.profile_image
+                                                    ? `/storage/${post.user?.profile?.profile_image}`
+                                                    : '/storage/default/default-profile.png'
+                                            }
+                                            alt={post.user?.name || 'User'}
+                                            className="h-8 w-8 rounded-full object-cover"
+                                        />
+                                    </div>
+                                    <span className="font-medium text-gray-900 dark:text-white">
+                                        <Link href={route('profile', post.user?.name)} className="hover:text-indigo-600 hover:underline">
+                                            {ToUpper(post.author)}
+                                        </Link>
+                                    </span>
                                 </div>
                                 <p className="mt-2 text-gray-700 dark:text-gray-300">
                                     Great post! The examples really helped me understand the concepts better.

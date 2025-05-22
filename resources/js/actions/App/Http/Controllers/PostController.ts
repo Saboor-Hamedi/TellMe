@@ -2,7 +2,7 @@ import { queryParams, type QueryParams } from './../../../../wayfinder'
 
 /**
  * @see \App\Http\Controllers\PostController::index
- * @see app\Http\Controllers\PostController.php:27
+ * @see app\Http\Controllers\PostController.php:28
  * @route /post/index
  */
 export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -20,7 +20,7 @@ index.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::index
- * @see app\Http\Controllers\PostController.php:27
+ * @see app\Http\Controllers\PostController.php:28
  * @route /post/index
  */
 index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -29,7 +29,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\PostController::index
- * @see app\Http\Controllers\PostController.php:27
+ * @see app\Http\Controllers\PostController.php:28
  * @route /post/index
  */
 index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -42,7 +42,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::index
- * @see app\Http\Controllers\PostController.php:27
+ * @see app\Http\Controllers\PostController.php:28
  * @route /post/index
  */
 index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -56,7 +56,7 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -74,7 +74,7 @@ create.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -83,7 +83,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -96,7 +96,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::create
- * @see app\Http\Controllers\PostController.php:41
+ * @see app\Http\Controllers\PostController.php:42
  * @route /post/create
  */
 create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -110,7 +110,7 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::store
- * @see app\Http\Controllers\PostController.php:46
+ * @see app\Http\Controllers\PostController.php:47
  * @route /post
  */
 export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -128,7 +128,7 @@ store.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::store
- * @see app\Http\Controllers\PostController.php:46
+ * @see app\Http\Controllers\PostController.php:47
  * @route /post
  */
 store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -137,7 +137,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
 
 /**
  * @see \App\Http\Controllers\PostController::store
- * @see app\Http\Controllers\PostController.php:46
+ * @see app\Http\Controllers\PostController.php:47
  * @route /post
  */
 store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -151,7 +151,7 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:128
+ * @see app\Http\Controllers\PostController.php:126
  * @route /post/{post}
  */
 export const destroy = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -169,7 +169,7 @@ destroy.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:128
+ * @see app\Http\Controllers\PostController.php:126
  * @route /post/{post}
  */
 destroy.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -200,7 +200,7 @@ destroy.url = (args: { post: number | { id: number } } | [post: number | { id: n
 
 /**
  * @see \App\Http\Controllers\PostController::destroy
- * @see app\Http\Controllers\PostController.php:128
+ * @see app\Http\Controllers\PostController.php:126
  * @route /post/{post}
  */
 destroy.delete = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -214,7 +214,7 @@ destroy.delete = (args: { post: number | { id: number } } | [post: number | { id
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:68
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 export const show = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -232,7 +232,7 @@ show.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:68
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -263,7 +263,7 @@ show.url = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:68
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.get = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -276,7 +276,7 @@ show.get = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::show
- * @see app\Http\Controllers\PostController.php:68
+ * @see app\Http\Controllers\PostController.php:66
  * @route /post/{post}/show
  */
 show.head = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -290,7 +290,7 @@ show.head = (args: { post: number | { id: number } } | [post: number | { id: num
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:81
+ * @see app\Http\Controllers\PostController.php:79
  * @route /post/{post}/edit
  */
 export const edit = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -308,7 +308,7 @@ edit.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:81
+ * @see app\Http\Controllers\PostController.php:79
  * @route /post/{post}/edit
  */
 edit.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -339,7 +339,7 @@ edit.url = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:81
+ * @see app\Http\Controllers\PostController.php:79
  * @route /post/{post}/edit
  */
 edit.get = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -352,7 +352,7 @@ edit.get = (args: { post: number | { id: number } } | [post: number | { id: numb
 
 /**
  * @see \App\Http\Controllers\PostController::edit
- * @see app\Http\Controllers\PostController.php:81
+ * @see app\Http\Controllers\PostController.php:79
  * @route /post/{post}/edit
  */
 edit.head = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -366,7 +366,7 @@ edit.head = (args: { post: number | { id: number } } | [post: number | { id: num
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 export const update = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -384,7 +384,7 @@ update.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 update.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -415,7 +415,7 @@ update.url = (args: { post: number | { id: number } } | [post: number | { id: nu
 
 /**
  * @see \App\Http\Controllers\PostController::update
- * @see app\Http\Controllers\PostController.php:86
+ * @see app\Http\Controllers\PostController.php:84
  * @route /post/{post}
  */
 update.put = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -429,7 +429,7 @@ update.put = (args: { post: number | { id: number } } | [post: number | { id: nu
 
 /**
  * @see \App\Http\Controllers\PostController::postVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 export const postVisibility = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
@@ -447,7 +447,7 @@ postVisibility.definition = {
 
 /**
  * @see \App\Http\Controllers\PostController::postVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 postVisibility.url = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
@@ -478,7 +478,7 @@ postVisibility.url = (args: { post: number | { id: number } } | [post: number | 
 
 /**
  * @see \App\Http\Controllers\PostController::postVisibility
- * @see app\Http\Controllers\PostController.php:109
+ * @see app\Http\Controllers\PostController.php:107
  * @route /post/{post}/visibility
  */
 postVisibility.patch = (args: { post: number | { id: number } } | [post: number | { id: number }] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {

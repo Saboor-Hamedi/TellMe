@@ -21,7 +21,6 @@ export default function Create() {
         title: string;
         content: string;
         is_public: boolean;
-        
         image: File | null,
     }>({
         title: '',

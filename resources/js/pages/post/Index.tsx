@@ -4,12 +4,15 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { LimitString } from '../helper/LimitString';
-import { Post } from '../helper/types';
+import { PageProps, Post } from '../helper/types';
 
-import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { Eye, Pencil, PencilIcon, Trash2, TrashIcon } from 'lucide-react';
+import KebabDropdown from '../dropdown/KebabDropdown';
+import PostCard from '../dropdown/PostCard';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,34 +22,57 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 export default function Index() {
     const { posts } = usePage<{ posts: { data: Post[] }; user_id: number }>().props;
-    const { flash } = usePage().props as {
-        flash?: { success?: string; error?: string };
+    const [isDeleting, setIsDeleting] = useState(false);
+    const deletePost = async (id: number) => {
+        console.log(`deletePost called for post ID: ${id}`);
+        if (!confirm('Are you sure you want to delete this post?')) return;
+        if (isDeleting) {
+            console.log('Deletion already in progress for post ID:', id);
+            return;
+        }
+        setIsDeleting(true);
+        try {
+            await router.delete(route('post.destroy', id), {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: (page) => {
+                    const flash = page.props.flash as PageProps['flash'];
+                    if (flash?.success) {
+                        toast.success(flash.success, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
+                    }
+                    if (flash?.error) {
+                        toast.error(flash.error, {
+                            duration: 2000,
+                            position: 'top-right',
+                        });
+                    }
+                },
+                onError: (errors) => {
+                    console.error('Delete errors:', errors);
+                    const errorMessage = Object.values(errors).flat().join(' ') || 'Failed to delete post';
+                    toast.error(errorMessage, {
+                        duration: 2000,
+                        position: 'top-right',
+                    });
+                },
+                onFinish: () => {
+                    setIsDeleting(false);
+                },
+            });
+        } catch (error) {
+            console.error('Unexpected error during deletion:', error);
+            toast.error('An unexpected error occurred', {
+                duration: 2000,
+                position: 'top-right',
+            });
+            setIsDeleting(false);
+        }
+        return { deletePost, isDeleting };
     };
 
-    useEffect(() => {
-        if (flash?.success) {
-            toast.success(flash.success, { duration: 2000 });
-        }
-        if (flash?.error) {
-            toast.error(flash.error, { duration: 2000 });
-        }
-    }, [flash]);
-    // Delete Post
-
-    const deletePost = (id: number) => {
-        if (confirm('Are you sure you want to delete this post?')) {
-            {
-                router.delete(route('post.destroy', id), {
-                    onSuccess: () => {
-                        toast.success('Post deleted successfully.', { duration: 2000 });
-                    },
-                    onError: () => {
-                        toast.error('Failed to delete post.');
-                    },
-                });
-            }
-        }
-    };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Posts" />
@@ -71,6 +97,9 @@ export default function Index() {
                                 </svg>
                                 <h3 className="mt-2 text-lg font-medium text-gray-900">No posts found</h3>
                                 <p className="mt-1 text-gray-500">Create your first post to get started</p>
+                                <Button onClick={() => router.get(route('post.create'))} className="mt-6 w-full" variant="outline">
+                                    Create Post
+                                </Button>
                             </div>
                         </div>
                     ) : (
@@ -120,7 +149,8 @@ export default function Index() {
                                         }}
                                     />
                                 </div>
-
+                                <div className="absolute top-2 right-2">
+                                </div>
                                 {/* Body - Content */}
                                 <div className="flex flex-grow flex-col p-4">
                                     <Link href={show.url(post.id)}>
@@ -148,7 +178,7 @@ export default function Index() {
                                             onClick={() => deletePost(post.id)}
                                             variant="destructive"
                                             size="sm"
-                                            className="flex items-center gap-1 hover:bg-red-700 cursor-pointer"
+                                            className="flex cursor-pointer items-center gap-1 hover:bg-red-700"
                                         >
                                             <Trash2 size={16} strokeWidth={1.5} className="text-white" />
                                             <span>Delete</span>

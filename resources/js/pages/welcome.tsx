@@ -72,7 +72,7 @@ export default function Welcome() {
                                         </Link>
                                     </div>
 
-                                    <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} />
+                                    {/* <PostVisibility post={post} onVisibiltyChange={updatePostVisibility} /> */}
                                 </div>
                             </div>
 
